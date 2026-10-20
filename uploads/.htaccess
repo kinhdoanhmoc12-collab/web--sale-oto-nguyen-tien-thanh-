@@ -1,0 +1,6 @@
+# Không cho chạy mã trong thư mục ảnh
+<FilesMatch "\.(php|phtml|php\d|phar|pl|py|cgi|sh|shtml|html?)$">
+Require all denied
+Deny from all
+</FilesMatch>
+Options -Indexes -ExecCGI

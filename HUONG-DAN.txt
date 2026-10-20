@@ -1,0 +1,77 @@
+WEB TƯ VẤN MITSUBISHI – NGUYỄN TIẾN THÀNH
+Web tự code (PHP + SQLite), không cần WordPress, không cần tạo database.
+
+========================================
+1. YÊU CẦU HOSTING
+========================================
+- PHP 7.4 trở lên (khuyên dùng PHP 8.1+), có bật PDO SQLite (gần như hosting nào cũng có).
+- Hosting Linux dùng Apache hoặc LiteSpeed (cPanel, DirectAdmin…): chạy ngay.
+- Nếu hosting dùng Nginx: nhờ nhà cung cấp thêm cấu hình ở mục 7.
+
+========================================
+2. CÀI ĐẶT (khoảng 5 phút)
+========================================
+1) Đăng nhập trang quản lý hosting → File Manager → mở thư mục public_html.
+2) Tải file web-mitsubishi.zip lên → Giải nén (Extract).
+3) Chuyển TOÀN BỘ file bên trong thư mục web-mitsubishi ra thẳng public_html
+   (sao cho public_html có index.php, admin, assets…).
+4) Đảm bảo 2 thư mục "data" và "uploads" cho phép ghi (quyền 755; nếu báo lỗi thì 775).
+5) Mở trình duyệt: tenmien.vn  → web hiện đầy đủ nội dung mẫu.
+6) Mở: tenmien.vn/admin  → lần đầu sẽ yêu cầu TẠO MẬT KHẨU quản trị. Ghi nhớ mật khẩu này.
+
+========================================
+3. TRANG QUẢN TRỊ (tenmien.vn/admin)
+========================================
+- Tổng quan: số khách chưa gọi, khách hôm nay, làm nhanh.
+- Khách hàng: mọi khách điền form trên web. Bấm số để gọi, nút Zalo để nhắn,
+  "Đánh dấu đã gọi", ghi chú, tìm kiếm, tải danh sách Excel.
+- Dòng xe & giá: sửa giá, phiên bản (mỗi dòng "Tên | Giá"), thông số, ảnh xe,
+  ưu đãi riêng, bài giới thiệu. Giá tự đổi ở trang chủ, bảng giá, trang xe,
+  máy tính lăn bánh và trả góp.
+- Bài viết: viết tin tức, chèn ảnh, chọn chuyên mục, lưu nháp hoặc đăng.
+- Banner trang chủ: ảnh 1920 × 817 px, chọn trang mở khi bấm.
+- Ảnh giao xe: ảnh dọc 1080 × 1440 px + lời cảm ơn.
+  Chỉ đăng "nhận xét của khách" khi khách đã đồng ý.
+- Các trang: tiêu đề, dòng mô tả, ảnh nền đầu trang, nội dung trang Dịch vụ,
+  Chính sách, mô tả trên Google.
+- Cài đặt chung: số điện thoại, Zalo, fanpage, địa chỉ, tư vấn viên, công ty,
+  phí lăn bánh, lãi suất trả góp, email nhận khách, Google Sheets, mã Google/Facebook.
+- Mật khẩu & sao lưu: đổi mật khẩu, tải file sao lưu.
+
+Trang quản trị dùng tốt trên điện thoại – có thể lưu ra màn hình chính.
+
+========================================
+4. NHẬN THÔNG BÁO KHI CÓ KHÁCH
+========================================
+- Cài đặt chung → "Nhận khách & SEO" → nhập email nhận thông báo.
+- Email gửi bằng hàm mail() của hosting. Nếu không nhận được (vào Spam hoặc hosting chặn),
+  khách VẪN được lưu đầy đủ trong mục Khách hàng.
+- Muốn ghi tự động vào Google Sheets: làm theo hướng dẫn ngay trong tab đó.
+
+========================================
+5. QUÊN MẬT KHẨU
+========================================
+File Manager → thư mục data → tạo file trống tên: quen-mat-khau.txt
+→ mở tenmien.vn/admin → đặt mật khẩu mới. (File tự xóa sau khi dùng.)
+
+========================================
+6. SEO & GOOGLE
+========================================
+- Sitemap tự động: tenmien.vn/sitemap.xml → gửi vào Google Search Console.
+- Cài đặt chung → "Nhận khách & SEO" → điền "Địa chỉ web chính thức" (https://tenmien.vn).
+- Mỗi trang, xe, bài viết đều có tiêu đề, mô tả, dữ liệu có cấu trúc cho Google.
+
+========================================
+7. CẤU HÌNH NGINX (chỉ khi hosting dùng Nginx)
+========================================
+location ~ ^/(data|inc|views)/ { deny all; }
+location ~ ^/uploads/.*\.php$ { deny all; }
+location / { try_files $uri $uri/ /index.php?$query_string; }
+
+========================================
+8. SAO LƯU
+========================================
+- Toàn bộ nội dung nằm trong file data/site.db – tải về mỗi tháng
+  (Quản trị → Mật khẩu & sao lưu → Tải file sao lưu).
+- Ảnh anh tải lên nằm trong thư mục uploads – sao lưu bằng File Manager.
+- Khôi phục: chép file site.db về lại thư mục data.
