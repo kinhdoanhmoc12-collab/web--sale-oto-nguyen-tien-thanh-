@@ -210,6 +210,84 @@
 		try { var u = new URL(a.href, location.href); u.searchParams.set('xe', id); a.href = u.toString(); } catch (e) { /* ignore */ }
 	}
 
+	/* ---------- Scroll Reveal (IntersectionObserver) ---------- */
+	(function () {
+		var selectors = [
+			'.section > .container > *',
+			'.car-card', '.post-card', '.news3__col',
+			'.stat', '.feature', '.promo', '.customer', '.info-card',
+			'.consultant__inner > *', '.title-line', '.cta-box',
+			'.result', '.calc__group', '.hero__inner > *', '.car-hero__img', '.car-hero__body'
+		];
+		var els = $$(selectors.join(','));
+		if (!('IntersectionObserver' in window)) {
+			els.forEach(function (el) { el.classList.add('tt-visible'); });
+			return;
+		}
+		els.forEach(function (el, i) {
+			if (!el.classList.contains('tt-reveal') && !el.classList.contains('tt-reveal-left') && !el.classList.contains('tt-reveal-right') && !el.classList.contains('tt-reveal-scale')) {
+				el.classList.add('tt-reveal');
+			}
+		});
+		var io = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('tt-visible');
+					io.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+		els.forEach(function (el) { io.observe(el); });
+	})();
+
+	/* ---------- Ripple effect on buttons ---------- */
+	D.addEventListener('click', function (e) {
+		var btn = e.target.closest('.btn, .mbar a, .chip');
+		if (!btn) return;
+		var r = D.createElement('span');
+		var rect = btn.getBoundingClientRect();
+		var size = Math.max(rect.width, rect.height) * 2;
+		r.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,.35);width:' + size + 'px;height:' + size + 'px;left:' + (e.clientX - rect.left - size / 2) + 'px;top:' + (e.clientY - rect.top - size / 2) + 'px;transform:scale(0);animation:tt-ripple .55s ease-out forwards;pointer-events:none;z-index:10';
+		var style = D.getElementById('tt-ripple-style');
+		if (!style) {
+			style = D.createElement('style');
+			style.id = 'tt-ripple-style';
+			style.textContent = '@keyframes tt-ripple{to{transform:scale(1);opacity:0}}';
+			D.head.appendChild(style);
+		}
+		btn.appendChild(r);
+		setTimeout(function () { if (r.parentNode) r.parentNode.removeChild(r); }, 600);
+	});
+
+	/* ---------- Stat number count-up ---------- */
+	(function () {
+		var stats = $$('.stat__num');
+		if (!stats.length || !('IntersectionObserver' in window)) return;
+		var io2 = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (!entry.isIntersecting) return;
+				io2.unobserve(entry.target);
+				var el = entry.target;
+				var text = el.textContent.trim();
+				var num = parseFloat(text.replace(/[^\d.]/g, ''));
+				if (isNaN(num) || num === 0) return;
+				var prefix = text.match(/^[^\d]*/)[0];
+				var suffix = text.match(/[^\d.]*$/)[0];
+				var start = 0, dur = 1200, startTime = null;
+				var step = function (ts) {
+					if (!startTime) startTime = ts;
+					var prog = Math.min((ts - startTime) / dur, 1);
+					var ease = 1 - Math.pow(1 - prog, 3);
+					var cur = Math.round(start + (num - start) * ease);
+					el.textContent = prefix + cur.toLocaleString('vi-VN') + suffix;
+					if (prog < 1) requestAnimationFrame(step);
+				};
+				requestAnimationFrame(step);
+			});
+		}, { threshold: 0.5 });
+		stats.forEach(function (el) { io2.observe(el); });
+	})();
+
 	$$('[data-calc]').forEach(function (root) {
 		var type = root.getAttribute('data-calc');
 		var out = function (k) { return $('[data-out="' + k + '"]', root); };
