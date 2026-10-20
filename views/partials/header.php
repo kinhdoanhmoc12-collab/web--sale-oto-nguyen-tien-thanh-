@@ -26,10 +26,15 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <?php seo_head($META ?? []); ?>
 <meta name="theme-color" content="#CC0000">
 <link rel="icon" href="<?= e(url('assets/img/logo.svg')) ?>" type="image/svg+xml">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
-<link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e(APP_VERSION . '-' . @filemtime(ROOT . '/assets/css/main.css')) ?>">
+<?php $cssMtime = @filemtime(ROOT . '/assets/css/main.css'); $cssVer = APP_VERSION . '-' . $cssMtime; ?>
+<link rel="preload" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"></noscript>
 <?php if (!empty($PRELOAD)) : ?><link rel="preload" as="image" href="<?= eu($PRELOAD) ?>" fetchpriority="high"><?php endif; ?>
 <?php $gtm = trim(opt('gtm_id')); if (preg_match('/^GTM-[A-Z0-9]+$/', $gtm)) : ?>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','<?= e($gtm) ?>');</script>
