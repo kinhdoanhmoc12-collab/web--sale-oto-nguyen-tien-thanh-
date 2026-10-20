@@ -213,20 +213,24 @@
 	/* ---------- Scroll Reveal (IntersectionObserver) ---------- */
 	(function () {
 		var selectors = [
-			'.section > .container > *',
 			'.car-card', '.post-card', '.news3__col',
-			'.stat', '.feature', '.promo', '.customer', '.info-card',
-			'.consultant__inner > *', '.title-line', '.cta-box',
-			'.result', '.calc__group', '.hero__inner > *', '.car-hero__img', '.car-hero__body'
+			'.feature', '.promo', '.customer', '.info-card',
+			'.title-line', '.cta-box', '.result', '.calc__group'
 		];
 		var els = $$(selectors.join(','));
 		if (!('IntersectionObserver' in window)) {
 			els.forEach(function (el) { el.classList.add('tt-visible'); });
 			return;
 		}
-		els.forEach(function (el, i) {
-			if (!el.classList.contains('tt-reveal') && !el.classList.contains('tt-reveal-left') && !el.classList.contains('tt-reveal-right') && !el.classList.contains('tt-reveal-scale')) {
-				el.classList.add('tt-reveal');
+		var vh = window.innerHeight || D.documentElement.clientHeight;
+		els.forEach(function (el) {
+			var rect = el.getBoundingClientRect();
+			if (rect.top < vh + 80) {
+				el.classList.add('tt-visible');
+			} else {
+				if (!el.classList.contains('tt-reveal') && !el.classList.contains('tt-reveal-left') && !el.classList.contains('tt-reveal-right') && !el.classList.contains('tt-reveal-scale')) {
+					el.classList.add('tt-reveal');
+				}
 			}
 		});
 		var io = new IntersectionObserver(function (entries) {
@@ -236,8 +240,12 @@
 					io.unobserve(entry.target);
 				}
 			});
-		}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-		els.forEach(function (el) { io.observe(el); });
+		}, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
+		els.forEach(function (el) {
+			if (!el.classList.contains('tt-visible')) {
+				io.observe(el);
+			}
+		});
 	})();
 
 	/* ---------- Ripple effect on buttons ---------- */

@@ -45,7 +45,7 @@ function seed_all(): void
         ['10', 'Xforce', 'Khách hàng gia đình', 'Chúc cả gia đình có thêm người bạn đồng hành mới. Cảm ơn anh chị đã tin tưởng em!'],
     ];
     foreach ($photos as $i => $p) {
-        db_save('deliveries', ['image' => 'assets/img/giaoxe-' . $p[0] . '.jpg', 'car' => $p[1], 'cust_type' => $p[2], 'msg_by' => 'consultant', 'message' => $p[3], 'cust_name' => '', 'ord' => $i + 1, 'active' => 1]);
+        db_save('deliveries', ['image' => 'assets/img/giaoxe-' . $p[0] . '.webp', 'car' => $p[1], 'cust_type' => $p[2], 'msg_by' => 'consultant', 'message' => $p[3], 'cust_name' => '', 'ord' => $i + 1, 'active' => 1]);
     }
 
     $pages = [
@@ -59,7 +59,7 @@ function seed_all(): void
         'tin-tuc'    => ['Tin tức & sự kiện', '', 'assets/img/bg-tintuc.webp', '', 'Tin tức xe Mitsubishi: khuyến mãi, bảng giá, kinh nghiệm mua xe và hình ảnh bàn giao xe tại showroom.'],
         'lien-he'    => ['Giới thiệu & liên hệ', '', 'assets/img/bg-lienhe.webp', '', 'Liên hệ chuyên viên tư vấn Mitsubishi Nguyễn Tiến Thành – Công ty CP Ô tô Hà Nội, Tổ 15, Phường Xuân Phương, Hà Nội. Hình ảnh khách hàng nhận xe.'],
         'chinh-sach' => ['Chính sách & điều khoản', '', 'assets/img/banner-xpander.webp', seed_policy(), 'Chính sách bảo vệ dữ liệu cá nhân, điều khoản giao dịch và quy định truy cập website.'],
-        'tac-gia'    => ['Nguyễn Tiến Thành', '', '', '', 'Nguyễn Tiến Thành – chuyên viên tư vấn bán hàng Mitsubishi tại Công ty CP Ô tô Hà Nội. 4 năm kinh nghiệm, gần 120 khách hàng đã nhận xe.'],
+        'tac-gia'    => ['Nguyễn Tiến Thành', '', '', '', 'Nguyễn Tiến Thành – chuyên viên tư vấn bán hàng Mitsubishi tại Công ty CP Ô tô Hà Nội. 4 năm kinh nghiệm, 388 xe đã bàn giao đến khách hàng.'],
     ];
     foreach ($pages as $k => $p) {
         q('INSERT INTO pages (k, title, subtitle, image, content, meta_desc, updated_at) VALUES (?,?,?,?,?,?,?)', [$k, $p[0], $p[1], $p[2], $p[3], $p[4], $now]);
@@ -86,7 +86,7 @@ function seed_service(): string
 <h2 id="bao-hanh">Chính sách bảo hành</h2>
 <p>Xe Mitsubishi mới được <strong>bảo hành chính hãng</strong> theo thời hạn và số km ghi trong Sổ bảo hành của từng dòng xe. Liên hệ để được tư vấn chính sách áp dụng cho xe của anh/chị.</p>
 <ul><li>Bảo hành tại hệ thống đại lý ủy quyền Mitsubishi trên toàn quốc</li><li>Cần bảo dưỡng đúng mốc để duy trì quyền lợi bảo hành</li><li>Điều kiện và hạng mục bảo hành chi tiết được ghi trong Sổ bảo hành giao kèm xe</li></ul>
-<figure><img src="assets/img/xuong-dichvu.jpg" alt="Xưởng dịch vụ Mitsubishi – Công ty CP Ô tô Hà Nội"><figcaption>Xưởng dịch vụ tại Công ty CP Ô tô Hà Nội</figcaption></figure>
+<figure><img src="assets/img/xuong-dichvu.webp" alt="Xưởng dịch vụ Mitsubishi – Công ty CP Ô tô Hà Nội" loading="lazy" decoding="async" width="900" height="507"><figcaption>Xưởng dịch vụ tại Công ty CP Ô tô Hà Nội</figcaption></figure>
 <h2 id="bao-duong">Bảo dưỡng định kỳ &amp; bảo dưỡng nhanh</h2>
 <p>Bảo dưỡng theo mốc km / thời gian trong Sổ bảo hành giúp xe vận hành ổn định và giữ quyền lợi bảo hành. Dịch vụ bảo dưỡng nhanh phù hợp các hạng mục cơ bản như thay dầu, lọc.</p>
 <ul><li>Mốc bảo dưỡng và hạng mục chi tiết theo Sổ bảo hành của từng dòng xe.</li><li>Bảo dưỡng nhanh: thay dầu, lọc và kiểm tra tổng quát.</li><li>Đặt lịch trước để được phục vụ đúng giờ, hạn chế thời gian chờ – xem form <a href="#dat-lich">Đặt lịch dịch vụ</a> bên dưới.</li></ul>
@@ -124,7 +124,7 @@ HTML;
 function seed_article(): string
 {
     return <<<HTML
-<p>Sau 4 năm tư vấn và gần 120 lần bàn giao xe tại showroom, tôi nhận ra phần lớn băn khoăn của khách mua xe lần đầu đều giống nhau: <strong>tổng cộng phải trả bao nhiêu, vay thế nào cho an toàn, và ký giấy tờ gì để không bị thiệt</strong>. Dưới đây là 7 điều tôi luôn dặn trước khi khách xuống tiền.</p>
+<p>Sau 4 năm tư vấn và hơn 388 lần bàn giao xe tại showroom, tôi nhận ra phần lớn băn khoăn của khách mua xe lần đầu đều giống nhau: <strong>tổng cộng phải trả bao nhiêu, vay thế nào cho an toàn, và ký giấy tờ gì để không bị thiệt</strong>. Dưới đây là 7 điều tôi luôn dặn trước khi khách xuống tiền.</p>
 <h2 id="y1">1. Giá niêm yết khác giá lăn bánh</h2>
 <p>Giá niêm yết là giá xe. Muốn xe lăn bánh hợp pháp, anh/chị còn phải trả thêm lệ phí trước bạ, phí biển số, phí đường bộ, bảo hiểm trách nhiệm dân sự bắt buộc và phí đăng kiểm. Ví dụ ước tính cho <a href="/mitsubishi-xpander/">Mitsubishi Xpander</a> bản giá từ 560 triệu, đăng ký tại Hà Nội:</p>
 <table><tbody><tr><td>Giá niêm yết</td><td>560.000.000 đ</td></tr><tr><td>Lệ phí trước bạ (Hà Nội 12%)</td><td>67.200.000 đ</td></tr><tr><td>Lệ phí biển số Hà Nội (tối đa)</td><td>20.000.000 đ</td></tr><tr><td>Phí đường bộ 12 tháng</td><td>1.560.000 đ</td></tr><tr><td>Bảo hiểm TNDS bắt buộc (xe 7 chỗ)</td><td>873.400 đ</td></tr><tr><td>Giấy chứng nhận đăng kiểm</td><td>90.000 đ</td></tr><tr><td><strong>Tổng ước tính</strong></td><td><strong>≈ 649.700.000 đ</strong></td></tr></tbody></table>

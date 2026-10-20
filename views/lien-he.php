@@ -18,7 +18,7 @@ partial('consultant', ['authorLink' => true, 'hideCommit' => true]);
 		<div class="customers__grid">
 			<?php foreach ($photos as $d) : $alt = 'Bàn giao xe Mitsubishi ' . $d['car'] . ' cho khách hàng tại showroom'; ?>
 				<figure class="customer">
-					<button type="button" class="customer__zoom" data-full="<?= eu(media($d['image'])) ?>" data-alt="<?= e($alt) ?>" aria-label="Xem lớn ảnh bàn giao <?= e($d['car']) ?>"><img loading="lazy" src="<?= eu(media($d['image'])) ?>" alt="<?= e($alt) ?>"></button>
+					<button type="button" class="customer__zoom" data-full="<?= eu(media($d['image'])) ?>" data-alt="<?= e($alt) ?>" aria-label="Xem lớn ảnh bàn giao <?= e($d['car']) ?>"><img loading="lazy" decoding="async" src="<?= eu(media($d['image'])) ?>" alt="<?= e($alt) ?>" width="400" height="533"></button>
 					<figcaption>
 						<div class="customer__meta"><strong>Bàn giao <?= e($d['car']) ?></strong><?= $d['cust_type'] ? ' · ' . e($d['cust_type']) : '' ?></div>
 						<?php if ($d['message']) : ?>

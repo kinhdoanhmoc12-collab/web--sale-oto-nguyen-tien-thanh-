@@ -34,14 +34,14 @@ function defaults(): array
         // Tư vấn viên
         'consultant_name' => 'Nguyễn Tiến Thành',
         'consultant_title' => 'Chuyên viên tư vấn bán hàng Mitsubishi',
-        'consultant_photo' => 'assets/img/tu-van-vien.jpg',
-        'consultant_bio' => 'Tư vấn bán hàng tại Công ty Cổ phần Ô tô Hà Nội – đại lý xe Mitsubishi. Với 4 năm gắn bó cùng thương hiệu và gần 120 khách hàng đã tin tưởng nhận xe, tôi hiểu rằng mua ô tô là một quyết định lớn của mỗi gia đình – vì vậy tôi luôn đặt sự minh bạch lên đầu.',
+        'consultant_photo' => 'assets/img/tu-van-vien.webp',
+        'consultant_bio' => 'Tư vấn bán hàng tại Công ty Cổ phần Ô tô Hà Nội – đại lý xe Mitsubishi. Với 4 năm gắn bó cùng thương hiệu và 388 xe đã bàn giao đến khách hàng, tôi hiểu rằng mua ô tô là một quyết định lớn của mỗi gia đình – vì vậy tôi luôn đặt sự minh bạch lên đầu.',
         'consultant_bio2' => 'Vì vậy, tôi luôn đặt sự minh bạch lên đầu: báo giá lăn bánh rõ từng khoản, tư vấn đúng nhu cầu và tài chính, hỗ trợ trọn vẹn từ lái thử, hồ sơ trả góp, đăng ký xe đến chăm sóc sau bán hàng.',
-        'author_intro' => "Tôi là Nguyễn Tiến Thành, chuyên viên tư vấn bán hàng tại Công ty Cổ phần Ô tô Hà Nội – đại lý xe Mitsubishi. Trong 4 năm làm nghề, tôi đã đồng hành cùng gần 120 khách hàng, từ những khách hàng mua chiếc xe đầu tiên đến các gia đình đổi xe rộng rãi hơn cho cả nhà.\nCác bài viết trên trang này đều xuất phát từ những câu hỏi khách hàng thường đặt ra cho tôi khi mua xe: tính giá lăn bánh, chọn phiên bản, vay trả góp, thủ tục đăng ký và chăm sóc xe sau khi nhận. Tôi cố gắng viết rõ ràng, có số liệu và cập nhật khi chính sách hoặc giá thay đổi.",
+        'author_intro' => "Tôi là Nguyễn Tiến Thành, chuyên viên tư vấn bán hàng tại Công ty Cổ phần Ô tô Hà Nội – đại lý xe Mitsubishi. Trong 4 năm làm nghề, tôi đã đồng hành và bàn giao 388 xe tới khách hàng, từ những khách hàng mua chiếc xe đầu tiên đến các gia đình đổi xe rộng rãi hơn cho cả nhà.\nCác bài viết trên trang này đều xuất phát từ những câu hỏi khách hàng thường đặt ra cho tôi khi mua xe: tính giá lăn bánh, chọn phiên bản, vay trả góp, thủ tục đăng ký và chăm sóc xe sau khi nhận. Tôi cố gắng viết rõ ràng, có số liệu và cập nhật khi chính sách hoặc giá thay đổi.",
         'stat_years' => '4 năm',
         'stat_years_label' => 'kinh nghiệm tư vấn xe Mitsubishi',
-        'stat_customers' => '~120',
-        'stat_customers_label' => 'khách hàng đã nhận xe',
+        'stat_customers' => '388 xe',
+        'stat_customers_label' => 'đã bàn giao đến khách hàng',
         'commitments' => "Báo giá lăn bánh chi tiết, minh bạch từng khoản\nHỗ trợ hồ sơ trả góp, duyệt vay nhanh\nLái thử tận nơi, giao xe tận nhà\nĐồng hành chăm sóc sau bán hàng",
         // Công ty
         'company_name' => 'CÔNG TY CỔ PHẦN Ô TÔ HÀ NỘI',
@@ -116,19 +116,34 @@ function full_url(string $path = ''): string
     return $site . '/' . ltrim($path, '/');
 }
 
-/** Media path (assets/… or uploads/…) or absolute URL → usable URL. */
+/** Media path (assets/… or uploads/…) or absolute URL → usable URL (auto-serves .webp if exists). */
 function media(?string $path): string
 {
     $path = (string) $path;
     if ($path === '' || preg_match('~^https?://~', $path)) {
         return $path;
     }
+    if (preg_match('/\.(jpe?g|png)$/i', $path)) {
+        $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $path);
+        if (is_file(ROOT . '/' . ltrim($webp, '/'))) {
+            return url($webp);
+        }
+    }
     return url($path);
 }
 function media_full(?string $path): string
 {
     $path = (string) $path;
-    return ($path === '' || preg_match('~^https?://~', $path)) ? $path : full_url($path);
+    if ($path === '' || preg_match('~^https?://~', $path)) {
+        return $path;
+    }
+    if (preg_match('/\.(jpe?g|png)$/i', $path)) {
+        $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $path);
+        if (is_file(ROOT . '/' . ltrim($webp, '/'))) {
+            return full_url($webp);
+        }
+    }
+    return full_url($path);
 }
 
 /** Built-in pages: key => [slug, template, menu label]. */
@@ -231,7 +246,7 @@ function car_specs(array $c): array
 function car_image(array $c, string $class = ''): string
 {
     if (!empty($c['image'])) {
-        return '<img src="' . eu(media($c['image'])) . '" alt="Mitsubishi ' . e($c['name']) . '" loading="lazy" class="' . e($class) . '">';
+        return '<img src="' . eu(media($c['image'])) . '" alt="Mitsubishi ' . e($c['name']) . '" loading="lazy" decoding="async" class="' . e($class) . '">';
     }
     return '<span class="car-ph ' . e($class) . '"><span>MITSUBISHI</span><strong>' . e(upper($c['name'])) . '</strong></span>';
 }

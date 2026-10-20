@@ -29,12 +29,9 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <?php $cssMtime = @filemtime(ROOT . '/assets/css/main.css'); $cssVer = APP_VERSION . '-' . $cssMtime; ?>
-<link rel="preload" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>"></noscript>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"></noscript>
+<link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
 <?php if (!empty($PRELOAD)) : ?><link rel="preload" as="image" href="<?= eu($PRELOAD) ?>" fetchpriority="high"><?php endif; ?>
 <?php $gtm = trim(opt('gtm_id')); if (preg_match('/^GTM-[A-Z0-9]+$/', $gtm)) : ?>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','<?= e($gtm) ?>');</script>
@@ -48,7 +45,7 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 
 <header class="site-header">
 	<div class="container site-header__inner">
-		<a class="site-header__logo" href="<?= e(url()) ?>" aria-label="Về trang chủ"><img class="site-header__logo-img" src="<?= e(url('assets/img/logo.svg')) ?>" alt="Mitsubishi Motors" width="84" height="82"></a>
+		<a class="site-header__logo" href="<?= e(url()) ?>" aria-label="Về trang chủ"><img class="site-header__logo-img" src="<?= e(url('assets/img/logo.svg')) ?>" alt="Mitsubishi Motors" width="84" height="82" decoding="async"></a>
 		<div class="site-header__brand">
 			<a class="site-header__title" href="<?= e(url()) ?>">Tư vấn Mitsubishi – <?= e(opt('consultant_name')) ?></a>
 			<div class="site-header__address">Địa chỉ: <?= e(opt('address')) ?></div>

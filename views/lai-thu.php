@@ -4,7 +4,7 @@ include __DIR__ . '/partials/header.php';
 $ph = opt('phone');
 ?>
 <section class="split-hero">
-	<img class="split-hero__img" src="<?= eu(media($page['image'] ?: 'assets/img/banner-triton.webp')) ?>" alt="<?= e($page['title']) ?>">
+	<img class="split-hero__img" src="<?= eu(media($page['image'] ?: 'assets/img/banner-triton.webp')) ?>" alt="<?= e($page['title']) ?>" decoding="async" fetchpriority="high">
 	<div class="split-hero__body">
 		<h1><?= e($page['title']) ?></h1>
 		<?php if ($page['subtitle']) : ?><p><?= e($page['subtitle']) ?></p><?php endif; ?>

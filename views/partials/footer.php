@@ -28,8 +28,7 @@ $cols = [
 			<?php if ($hotline) : ?><a class="site-footer__big" href="tel:<?= e(tel(explode('/', $hotline)[0])) ?>"><?= icon('phone', 22) ?><?= e($hotline) ?> (Hotline)</a><?php endif; ?>
 			<?php if (opt('tech_hotline')) : ?><a class="site-footer__big" href="tel:<?= e(tel(opt('tech_hotline'))) ?>"><?= icon('mobile', 22) ?><?= e(opt('tech_hotline')) ?> (Hỗ trợ kỹ thuật)</a><?php endif; ?>
 			<?php if (opt('email')) : ?><a class="site-footer__big" href="mailto:<?= e(opt('email')) ?>"><?= icon('mail', 22) ?><?= e(opt('email')) ?></a><?php endif; ?>
-			<div class="site-footer__company"><?= e(opt('company_name')) ?></div>
-			<div style="font-size:13px;color:#ccc;margin-top:4px;font-style:italic">Website này được ủy quyền bởi <strong style="color:#fff"><?= e(opt('company_name')) ?></strong></div>
+			<div class="site-footer__company">Website này được ủy quyền bởi <?= e(opt('company_name')) ?></div>
 			<ul class="site-footer__legal">
 				<?php foreach (lines(opt('company_lines')) as $line) : ?><li><?= e($line) ?></li><?php endforeach; ?>
 			</ul>
@@ -57,7 +56,7 @@ $cols = [
 </nav>
 
 <div class="lightbox" id="tt-lightbox" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh lớn">
-	<img src="" alt="">
+	<img src="" alt="" decoding="async">
 	<button type="button" class="lightbox__close" aria-label="Đóng ảnh"><?= icon('close', 26, '#fff') ?></button>
 </div>
 </body>

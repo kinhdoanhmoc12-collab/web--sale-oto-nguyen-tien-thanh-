@@ -5,7 +5,7 @@ $ph = opt('phone');
 ?>
 <section class="consultant" aria-label="Người tư vấn">
 	<div class="container consultant__inner">
-		<img class="consultant__photo" loading="lazy" src="<?= eu(media(opt('consultant_photo'))) ?>" alt="Chuyên viên tư vấn <?= e(opt('consultant_name')) ?> tại showroom Mitsubishi" width="300" height="300">
+		<img class="consultant__photo" decoding="async" src="<?= eu(media(opt('consultant_photo'))) ?>" alt="Chuyên viên tư vấn <?= e(opt('consultant_name')) ?> tại showroom Mitsubishi" width="300" height="300">
 		<div class="consultant__body">
 			<div class="kicker">CHUYÊN VIÊN TƯ VẤN</div>
 			<h2 class="consultant__name"><?= e(opt('consultant_name')) ?></h2>

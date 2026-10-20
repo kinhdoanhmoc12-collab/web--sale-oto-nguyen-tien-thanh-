@@ -102,8 +102,8 @@ h1,h2,h3{line-height:1.25}
 /* Slider */
 .slider{position:relative;background:#e9ecef;overflow:hidden}
 .slider__track{position:relative;aspect-ratio:2.35/1}
-.slider__slide{position:absolute;inset:0;opacity:0;transition:opacity .7s cubic-bezier(.4,0,.2,1);pointer-events:none;transform:scale(1.03)}
-.slider__slide.is-active{opacity:1;pointer-events:auto;transform:scale(1)}
+.slider__slide{position:absolute;inset:0;opacity:0;transition:opacity .7s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.slider__slide.is-active{opacity:1;pointer-events:auto}
 .slider__arrow{transition:background .2s,transform .2s!important}
 .slider__arrow:hover{background:rgba(204,0,0,.75)!important;transform:translateY(-50%) scale(1.12)!important}
 .slider__slide a{display:block;height:100%}

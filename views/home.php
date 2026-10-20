@@ -17,7 +17,7 @@ include __DIR__ . '/partials/header.php';
 	<h1 class="sr-only">Mitsubishi Hà Nội – Tư vấn mua xe, báo giá lăn bánh và trả góp | <?= e(opt('consultant_name')) ?></h1>
 	<?php if ($banners) : ?>
 		<div class="slider__track">
-			<?php foreach ($banners as $i => $b) : $img = '<img class="slider__img" src="' . eu(media($b['image'])) . '" alt="' . e($b['alt']) . '"' . ($i ? ' loading="lazy"' : ' fetchpriority="high"') . '>'; ?>
+			<?php foreach ($banners as $i => $b) : $img = '<img class="slider__img" src="' . eu(media($b['image'])) . '" alt="' . e($b['alt']) . '" width="1920" height="817"' . ($i ? ' loading="lazy" decoding="async"' : ' fetchpriority="high" decoding="async"') . '>'; ?>
 				<div class="slider__slide<?= $i ? '' : ' is-active' ?>" aria-hidden="<?= $i ? 'true' : 'false' ?>">
 					<?php if ($b['link']) : ?><a href="<?= eu(preg_match('~^(https?:)?//|^#~', $b['link']) ? $b['link'] : url($b['link'])) ?>" tabindex="<?= $i ? '-1' : '0' ?>"><?= $img ?></a><?php else : ?><?= $img ?><?php endif; ?>
 				</div>
@@ -48,7 +48,7 @@ include __DIR__ . '/partials/header.php';
 		<div class="title-line"><h2>TIN TỨC &amp; ƯU ĐÃI</h2></div>
 		<div class="news3">
 			<div class="news3__col">
-				<a class="news3__img news3__img--sm" href="<?= e(page_url('khuyen-mai')) ?>"><img loading="lazy" src="<?= eu(media(page_data('khuyen-mai')['image'] ?: 'assets/img/bg-khuyenmai.webp')) ?>" alt="Ưu đãi xe Mitsubishi <?= date('Y') ?>"></a>
+				<a class="news3__img news3__img--sm" href="<?= e(page_url('khuyen-mai')) ?>"><img loading="lazy" decoding="async" src="<?= eu(media(page_data('khuyen-mai')['image'] ?: 'assets/img/bg-khuyenmai.webp')) ?>" alt="Ưu đãi xe Mitsubishi <?= date('Y') ?>" width="380" height="214"></a>
 				<a class="news3__link" href="<?= e(page_url('khuyen-mai')) ?>">CHƯƠNG TRÌNH KHUYẾN MÃI THÁNG NÀY →</a>
 				<a class="news3__link" href="<?= e(page_url('bang-gia')) ?>">BẢNG GIÁ XE MITSUBISHI MỚI NHẤT →</a>
 				<a class="news3__link" href="<?= e(page_url('tra-gop')) ?>">TÍNH TRẢ GÓP: TRẢ TRƯỚC BAO NHIÊU, MỖI THÁNG BAO NHIÊU? →</a>
@@ -57,16 +57,16 @@ include __DIR__ . '/partials/header.php';
 			<div class="news3__col">
 				<?php $posts = rows("SELECT * FROM posts WHERE status = 'publish' ORDER BY created_at DESC LIMIT 2"); ?>
 				<?php foreach ($posts as $p) : ?>
-					<a class="news3__img news3__post" href="<?= e(post_url($p)) ?>"><img loading="lazy" src="<?= eu(media($p['image'] ?: 'assets/img/bg-tintuc.webp')) ?>" alt=""><span><?= e($p['title']) ?></span></a>
+					<a class="news3__img news3__post" href="<?= e(post_url($p)) ?>"><img loading="lazy" decoding="async" src="<?= eu(media($p['image'] ?: 'assets/img/bg-tintuc.webp')) ?>" alt="" width="380" height="214"><span><?= e($p['title']) ?></span></a>
 				<?php endforeach; ?>
 				<?php if (count($posts) < 2) : ?>
-					<a class="news3__img" href="<?= e(page_url('bang-gia')) ?>"><img loading="lazy" src="<?= e(url('assets/img/bg-banggia.webp')) ?>" alt="Bảng giá xe Mitsubishi"></a>
+					<a class="news3__img" href="<?= e(page_url('bang-gia')) ?>"><img loading="lazy" decoding="async" src="<?= e(url('assets/img/bg-banggia.webp')) ?>" alt="Bảng giá xe Mitsubishi" width="380" height="214"></a>
 				<?php endif; ?>
 				<a class="pill pill--red pill--end" href="<?= e(page_url('bang-gia')) ?>">XEM CÁC DÒNG XE</a>
 			</div>
 			<div class="news3__col" id="khach-hang">
 				<?php foreach (rows('SELECT * FROM deliveries WHERE active = 1 ORDER BY ord, id LIMIT 2') as $d) : ?>
-					<a class="news3__img" href="<?= e(page_url('lien-he', '#khach-hang')) ?>"><img class="pos-60" loading="lazy" src="<?= eu(media($d['image'])) ?>" alt="Bàn giao xe Mitsubishi <?= e($d['car']) ?> cho khách hàng tại showroom"></a>
+					<a class="news3__img" href="<?= e(page_url('lien-he', '#khach-hang')) ?>"><img class="pos-60" loading="lazy" decoding="async" src="<?= eu(media($d['image'])) ?>" alt="Bàn giao xe Mitsubishi <?= e($d['car']) ?> cho khách hàng tại showroom" width="380" height="507"></a>
 				<?php endforeach; ?>
 				<a class="pill pill--red" href="<?= e(page_url('lien-he', '#khach-hang')) ?>">TRẢI NGHIỆM KHÁCH HÀNG</a>
 			</div>
@@ -75,7 +75,7 @@ include __DIR__ . '/partials/header.php';
 </section>
 
 <section id="dang-ky" class="quote">
-	<a class="quote__img" href="<?= e($allCars ? car_url($allCars[0]) : page_url('bang-gia')) ?>"><img loading="lazy" src="<?= eu(media(opt('form_image'))) ?>" alt="Mitsubishi – Nhận báo giá và đăng ký lái thử"></a>
+	<a class="quote__img" href="<?= e($allCars ? car_url($allCars[0]) : page_url('bang-gia')) ?>"><img loading="lazy" decoding="async" src="<?= eu(media(opt('form_image'))) ?>" alt="Mitsubishi – Nhận báo giá và đăng ký lái thử" width="560" height="420"></a>
 	<div class="quote__form">
 		<?php partial('lead-form', ['source' => 'trang-chu', 'title' => 'NHẬN BÁO GIÁ & ĐĂNG KÝ LÁI THỬ', 'skin' => 'onred', 'fields' => ['pay', 'car', 'region'], 'button' => 'GỬI YÊU CẦU NGAY']); ?>
 	</div>

@@ -10,7 +10,7 @@ $posts = rows("SELECT * FROM posts WHERE status = 'publish' ORDER BY created_at 
 ?>
 <section class="profile">
 	<div class="container profile__inner">
-		<img class="profile__photo" src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?> – <?= e(opt('consultant_title')) ?>" width="220" height="220">
+		<img class="profile__photo" src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?> – <?= e(opt('consultant_title')) ?>" width="220" height="220" decoding="async">
 		<div>
 			<div class="kicker">TÁC GIẢ &amp; CHUYÊN VIÊN TƯ VẤN</div>
 			<h1 class="profile__name"><?= e(opt('consultant_name')) ?></h1>

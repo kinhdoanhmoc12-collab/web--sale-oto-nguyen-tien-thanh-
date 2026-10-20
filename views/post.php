@@ -36,7 +36,7 @@ $ph = opt('phone');
 		<?php if ($post['category']) : ?><a class="hero__kicker" href="<?= e(page_url('tin-tuc')) ?>?cm=<?= e(rawurlencode($post['category'])) ?>"><?= e(upper($post['category'])) ?></a><?php endif; ?>
 		<h1 class="hero__title hero__title--post"><?= e($post['title']) ?></h1>
 		<div class="byline">
-			<img src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?>" width="44" height="44">
+			<img src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?>" width="44" height="44" loading="lazy" decoding="async">
 			<span>Bởi <a href="<?= e(page_url('tac-gia')) ?>"><?= e(opt('consultant_name')) ?></a> · <?= e(opt('consultant_title')) ?></span>
 			<span>Đăng ngày <time datetime="<?= e(substr($post['created_at'], 0, 10)) ?>"><?= e(vn_date($post['created_at'])) ?></time> · Cập nhật <time datetime="<?= e(substr((string) ($post['updated_at'] ?: $post['created_at']), 0, 10)) ?>"><?= e(vn_date($post['updated_at'] ?: $post['created_at'])) ?></time></span>
 		</div>
@@ -45,7 +45,7 @@ $ph = opt('phone');
 <article class="container container--text section"><div class="entry"><?= $content ?></div></article>
 <section class="author-box-wrap">
 	<div class="container container--text author-box">
-		<img src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?>" width="96" height="96" loading="lazy">
+		<img src="<?= eu(media(opt('consultant_photo'))) ?>" alt="<?= e(opt('consultant_name')) ?>" width="96" height="96" loading="lazy" decoding="async">
 		<div>
 			<div class="kicker">VỀ TÁC GIẢ</div>
 			<a class="author-box__name" href="<?= e(page_url('tac-gia')) ?>"><?= e(opt('consultant_name')) ?></a>
