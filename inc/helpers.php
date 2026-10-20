@@ -350,7 +350,17 @@ function csrf_ok(): bool { session_start_safe(); return isset($_POST['csrf'], $_
 function render_content(?string $html): string
 {
     $html = clean_html((string) $html);
-    $html = preg_replace('~(src|href)="(?:\./)?((?:assets|uploads)/[^"]+)"~', '$1="' . BASE . '/$2"', $html);
+    $html = preg_replace_callback('~(src|href)="(?:\./)?((?:assets|uploads)/[^"]+)"~', function ($m) {
+        $attr = $m[1];
+        $path = $m[2];
+        if (preg_match('/\.(jpe?g|png)$/i', $path)) {
+            $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $path);
+            if (is_file(ROOT . '/' . $webp)) {
+                $path = $webp;
+            }
+        }
+        return $attr . '="' . BASE . '/' . $path . '"';
+    }, $html);
     if (BASE !== '') {
         $html = preg_replace('~href="/(?!/)~', 'href="' . BASE . '/', $html);
     }
