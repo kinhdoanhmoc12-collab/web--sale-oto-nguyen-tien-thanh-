@@ -33,7 +33,6 @@ $cols = [
 				<?php foreach (lines(opt('company_lines')) as $line) : ?><li><?= e($line) ?></li><?php endforeach; ?>
 			</ul>
 			<div class="site-footer__social">
-				<?php if ($fb) : ?><a href="<?= eu($fb) ?>" target="_blank" rel="noopener" aria-label="Fanpage Facebook">f</a><?php endif; ?>
 				<?php if ($yt) : ?><a href="<?= eu($yt) ?>" target="_blank" rel="noopener" aria-label="Kênh YouTube"><svg width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#fff"/><path d="M11 5l8 5-8 5z" fill="#000"/></svg></a><?php endif; ?>
 			</div>
 		</div>
