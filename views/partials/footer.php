@@ -45,7 +45,6 @@ $cols = [
 </footer>
 
 <div class="float-contact" aria-label="Liên hệ nhanh">
-	<?php if ($fb) : ?><a class="float-contact__fb" href="<?= eu($fb) ?>" target="_blank" rel="noopener" aria-label="Fanpage Facebook">f</a><?php endif; ?>
 	<a class="float-contact__zalo" href="https://zalo.me/<?= e(tel(opt('zalo'))) ?>" target="_blank" rel="noopener" aria-label="Chat Zalo">Zalo</a>
 	<a class="float-contact__call" href="tel:<?= e(tel($phone)) ?>"><?= icon('phone', 18) ?><?= e($phone) ?></a>
 </div>
