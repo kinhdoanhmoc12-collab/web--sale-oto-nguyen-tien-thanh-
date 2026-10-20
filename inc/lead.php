@@ -86,7 +86,7 @@ $labels = ['name' => 'Họ tên', 'phone' => 'Điện thoại', 'car' => 'Xe qua
 
 // Email.
 $to = opt('lead_email') ?: opt('email');
-if ($to && function_exists('mail')) {
+if ($to) {
     $body = "Có khách vừa để lại thông tin trên web:\n\n";
     foreach ($labels as $k => $l) {
         if ($lead[$k] !== '') {
@@ -94,9 +94,17 @@ if ($to && function_exists('mail')) {
         }
     }
     $body .= "\nXem trong trang quản trị: " . full_url('admin/?p=leads');
-    $host = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'localhost');
-    $headers = "From: Web tu van <no-reply@$host>\r\nContent-Type: text/plain; charset=UTF-8";
-    @mail($to, '=?UTF-8?B?' . base64_encode("[Web] Khách mới: $name – $phone") . '?=', $body, $headers);
+    $subject = "[Web] Khách mới: $name – $phone";
+
+    $sent = false;
+    if (opt('smtp_enabled') === '1' && opt('smtp_user') && opt('smtp_pass')) {
+        $sent = send_smtp_mail($to, $subject, $body);
+    }
+    if (!$sent && function_exists('mail')) {
+        $host = preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'mitsubishimydinh.com');
+        $headers = "From: Web tu van <no-reply@$host>\r\nReply-To: no-reply@$host\r\nContent-Type: text/plain; charset=UTF-8";
+        @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $headers);
+    }
 }
 
 // Google Sheets (Apps Script web app).

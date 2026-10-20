@@ -72,8 +72,14 @@ function defaults(): array
         'loan_rates' => '7,8,9,10',
         'maf_text' => 'Gói vay qua công ty tài chính liên kết với hãng. Tỷ lệ trả trước, kỳ hạn và lãi suất thay đổi theo từng thời kỳ – liên hệ để được báo gói đang áp dụng.',
         // Nhận khách
-        'lead_email' => '',
+        'lead_email' => 'mindi151202@gmail.com',
         'lead_webhook' => '',
+        'smtp_enabled' => '0',
+        'smtp_host' => 'smtp.gmail.com',
+        'smtp_port' => '587',
+        'smtp_user' => '',
+        'smtp_pass' => '',
+        'smtp_secure' => 'tls',
         // SEO
         'site_name' => 'Tư vấn Mitsubishi – Nguyễn Tiến Thành',
         'site_url' => '',
@@ -367,3 +373,98 @@ function render_content(?string $html): string
     }
     return $html;
 }
+
+/** Gửi email qua máy chủ SMTP (ví dụ Gmail SMTP với Mật khẩu ứng dụng). */
+function send_smtp_mail(string $to, string $subject, string $body): bool
+{
+    $host = opt('smtp_host') ?: 'smtp.gmail.com';
+    $port = (int) (opt('smtp_port') ?: 587);
+    $user = opt('smtp_user');
+    $pass = opt('smtp_pass');
+    $secure = strtolower(trim(opt('smtp_secure') ?: 'tls'));
+
+    if (!$user || !$pass) {
+        return false;
+    }
+
+    $timeout = 10;
+    $target = ($secure === 'ssl' ? 'ssl://' : '') . $host . ':' . $port;
+    $sock = @stream_socket_client($target, $errno, $errstr, $timeout);
+    if (!$sock) {
+        error_log("SMTP connection failed: $errstr ($errno)");
+        return false;
+    }
+    stream_set_timeout($sock, $timeout);
+
+    $read = function() use ($sock) {
+        $data = '';
+        while (!feof($sock)) {
+            $line = fgets($sock, 512);
+            $data .= $line;
+            if (isset($line[3]) && $line[3] === ' ') break;
+        }
+        return $data;
+    };
+    $send = function($cmd) use ($sock) {
+        fputs($sock, $cmd . "\r\n");
+    };
+
+    $res = $read();
+    if (substr($res, 0, 3) !== '220') { fclose($sock); return false; }
+
+    $send("EHLO " . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+    $res = $read();
+
+    if ($secure === 'tls' && $port == 587) {
+        $send("STARTTLS");
+        $res = $read();
+        if (substr($res, 0, 3) !== '220') { fclose($sock); return false; }
+        if (!stream_socket_enable_crypto($sock, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            fclose($sock);
+            return false;
+        }
+        $send("EHLO " . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+        $res = $read();
+    }
+
+    $send("AUTH LOGIN");
+    $res = $read();
+    if (substr($res, 0, 3) !== '334') { fclose($sock); return false; }
+
+    $send(base64_encode($user));
+    $res = $read();
+    if (substr($res, 0, 3) !== '334') { fclose($sock); return false; }
+
+    $send(base64_encode($pass));
+    $res = $read();
+    if (substr($res, 0, 3) !== '235') { fclose($sock); return false; }
+
+    $send("MAIL FROM:<$user>");
+    $res = $read();
+    if (substr($res, 0, 3) !== '250') { fclose($sock); return false; }
+
+    $send("RCPT TO:<$to>");
+    $res = $read();
+    if (substr($res, 0, 3) !== '250') { fclose($sock); return false; }
+
+    $send("DATA");
+    $res = $read();
+    if (substr($res, 0, 3) !== '354') { fclose($sock); return false; }
+
+    $headers = [
+        "From: =?UTF-8?B?" . base64_encode(opt('site_name') ?: 'Mitsubishi Mỹ Đình') . "?= <$user>",
+        "To: <$to>",
+        "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=",
+        "MIME-Version: 1.0",
+        "Content-Type: text/plain; charset=UTF-8",
+        "Date: " . date('r'),
+    ];
+    $message = implode("\r\n", $headers) . "\r\n\r\n" . $body . "\r\n.";
+    $send($message);
+    $res = $read();
+
+    $send("QUIT");
+    fclose($sock);
+    return substr($res, 0, 3) === '250';
+}
+
