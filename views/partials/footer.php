@@ -29,6 +29,7 @@ $cols = [
 			<?php if (opt('tech_hotline')) : ?><a class="site-footer__big" href="tel:<?= e(tel(opt('tech_hotline'))) ?>"><?= icon('mobile', 22) ?><?= e(opt('tech_hotline')) ?> (Hỗ trợ kỹ thuật)</a><?php endif; ?>
 			<?php if (opt('email')) : ?><a class="site-footer__big" href="mailto:<?= e(opt('email')) ?>"><?= icon('mail', 22) ?><?= e(opt('email')) ?></a><?php endif; ?>
 			<div class="site-footer__company"><?= e(opt('company_name')) ?></div>
+			<div style="font-size:13px;color:#ccc;margin-top:4px;font-style:italic">Website này được ủy quyền bởi <strong style="color:#fff"><?= e(opt('company_name')) ?></strong></div>
 			<ul class="site-footer__legal">
 				<?php foreach (lines(opt('company_lines')) as $line) : ?><li><?= e($line) ?></li><?php endforeach; ?>
 			</ul>
