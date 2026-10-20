@@ -16,10 +16,13 @@ $success = $success ?? ('Chuyên viên ' . e(opt('consultant_name')) . ' sẽ g�
 <form class="lead-form lead-form--<?= e($skin) ?>" data-source="<?= e($source) ?>" novalidate>
 	<?php if ($title) : ?><h2 class="lead-form__title"><?= e($title) ?></h2><?php endif; ?>
 	<div class="lead-form__body">
-		<?php if (isset($fields['pay'])) : ?>
+		<?php if (isset($fields['pay'])) : 
+			$id_gop = 'pay_gop_' . substr(md5($source . '_' . $skin), 0, 6);
+			$id_thang = 'pay_thang_' . substr(md5($source . '_' . $skin), 0, 6);
+		?>
 			<div class="lead-form__radios" role="radiogroup" aria-label="Hình thức thanh toán">
-				<label><input type="radio" name="pay" value="Trả góp" checked> Trả góp</label>
-				<label><input type="radio" name="pay" value="Trả thẳng"> Trả thẳng</label>
+				<label for="<?= $id_gop ?>"><input type="radio" id="<?= $id_gop ?>" name="pay" value="Trả góp" checked> Trả góp</label>
+				<label for="<?= $id_thang ?>"><input type="radio" id="<?= $id_thang ?>" name="pay" value="Trả thẳng"> Trả thẳng</label>
 			</div>
 		<?php endif; ?>
 		<div class="lead-form__grid">
