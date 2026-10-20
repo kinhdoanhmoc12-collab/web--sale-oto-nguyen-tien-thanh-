@@ -29,6 +29,7 @@ function defaults(): array
         'address' => 'Tổ 15, Phường Xuân Phương, Thành phố Hà Nội',
         'showroom_name' => 'Đại lý Mitsubishi Cầu Diễn – Hanoi Auto',
         'maps_url' => 'https://www.google.com/maps/place/%C4%90%E1%BA%A1i+L%C3%BD+Mitsubishi+C%E1%BA%A7u+Di%E1%BB%85n+-+Hanoi+Auto/@21.047696,105.744707,17z/data=!4m6!3m5!1s0x3134559a5c4b5c25:0x75290a4e2cb31ec1!8m2!3d21.0476963!4d105.7447074!16s%2Fg%2F11ghnyr1jf',
+        'maps_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.639722303038!2d105.7421324758778!3d21.047696280608034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134559a5c4b5c25%3A0x75290a4e2cb31ec1!2zxJDhuqFpIEzDvSBNaXRzdWJpc2hpIEPhuqd1IERp4buFbiAtIEhhbm9pIEF1dG8!5e0!3m2!1svi!2svn!4v1710000000000!5m2!1svi!2svn',
         'lat' => '21.0476963',
         'lng' => '105.7447074',
         // Tư vấn viên

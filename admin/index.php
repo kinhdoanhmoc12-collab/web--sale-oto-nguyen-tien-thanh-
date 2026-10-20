@@ -316,6 +316,7 @@ function settings_schema(): array
             'address' => ['Địa chỉ showroom', 'text'],
             'showroom_name' => ['Tên showroom', 'text'],
             'maps_url' => ['Link Google Maps', 'url'],
+            'maps_embed' => ['Link nhúng bản đồ Google Maps (iframe embed)', 'url'],
             'lat' => ['Vĩ độ (bản đồ)', 'text'],
             'lng' => ['Kinh độ (bản đồ)', 'text'],
             'dealer_hotline' => ['Hotline đại lý (chân trang)', 'text'],

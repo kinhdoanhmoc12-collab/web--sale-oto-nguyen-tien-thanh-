@@ -54,6 +54,11 @@ partial('consultant', ['authorLink' => true, 'hideCommit' => true]);
 			<div class="kicker">VỊ TRÍ SHOWROOM</div>
 			<div class="map-card__name"><?= e(opt('showroom_name')) ?></div>
 			<div class="map-card__addr"><?= icon('pin', 18) ?> <?= e(opt('address')) ?></div>
+			<?php if (opt('maps_embed')) : ?>
+			<div class="map-card__frame">
+				<iframe src="<?= e(opt('maps_embed')) ?>" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bản đồ vị trí <?= e(opt('showroom_name')) ?>"></iframe>
+			</div>
+			<?php endif; ?>
 			<div class="btn-row">
 				<a class="btn btn--red" href="<?= e('https://www.google.com/maps/dir/?api=1&destination=' . rawurlencode(opt('lat') . ',' . opt('lng'))) ?>" target="_blank" rel="noopener">CHỈ ĐƯỜNG ĐẾN SHOWROOM</a>
 				<a class="btn btn--outline" href="<?= eu(opt('maps_url')) ?>" target="_blank" rel="noopener">XEM TRÊN GOOGLE MAPS</a>
