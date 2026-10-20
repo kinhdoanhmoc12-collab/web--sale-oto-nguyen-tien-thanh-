@@ -44,8 +44,8 @@ $cols = [
 </footer>
 
 <div class="float-contact" aria-label="Liên hệ nhanh">
-	<a class="float-contact__zalo" href="https://zalo.me/<?= e(tel(opt('zalo'))) ?>" target="_blank" rel="noopener" aria-label="Chat Zalo">Zalo</a>
-	<a class="float-contact__call" href="tel:<?= e(tel($phone)) ?>"><?= icon('phone', 18) ?><?= e($phone) ?></a>
+	<a class="float-contact__zalo" href="https://zalo.me/<?= e(tel(opt('zalo'))) ?>" target="_blank" rel="noopener" aria-label="Chat Zalo" data-tip="Chat Zalo ngay">Zalo</a>
+	<a class="float-contact__call" href="tel:<?= e(tel($phone)) ?>" data-tip="Gọi tư vấn miễn phí"><span class="call-icon"><?= icon('phone', 18) ?></span><?= e($phone) ?></a>
 </div>
 
 <?php $qHref = ($view ?? '') === 'car' ? '#bao-gia' : (($view ?? '') === 'home' ? '#dang-ky' : url('#dang-ky')); ?>
