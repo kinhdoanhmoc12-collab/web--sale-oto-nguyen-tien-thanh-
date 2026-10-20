@@ -350,7 +350,7 @@ function csrf_ok(): bool { session_start_safe(); return isset($_POST['csrf'], $_
 function render_content(?string $html): string
 {
     $html = clean_html((string) $html);
-    $html = preg_replace_callback('~(src|href)="(?:\./)?((?:assets|uploads)/[^"]+)"~', function ($m) {
+    $html = preg_replace_callback('~(src|href)="(?:\./|/)?((?:assets|uploads)/[^"]+)"~', function ($m) {
         $attr = $m[1];
         $path = $m[2];
         if (preg_match('/\.(jpe?g|png)$/i', $path)) {
