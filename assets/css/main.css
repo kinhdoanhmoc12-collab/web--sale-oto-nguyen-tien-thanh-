@@ -606,42 +606,51 @@ body.popup-open{overflow:hidden}
 
 /* ===== Phone layout ===== */
 @media (max-width:640px){
-	body{padding-bottom:64px}
-	/* Header gọn */
+	body{padding-bottom:calc(68px + env(safe-area-inset-bottom, 0px))}
+	/* Header gọn & không tràn chữ */
 	.site-header__inner{flex-wrap:nowrap;gap:10px;padding-top:8px;padding-bottom:8px}
-	.site-header__logo-img{width:46px;height:45px}
+	.site-header__logo-img{width:46px;height:45px;flex:none}
 	.site-header__brand{flex:1 1 auto;min-width:0;gap:2px}
-	.site-header__title{font-size:15px;line-height:1.3}
+	.site-header__title{font-size:15px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 	.site-header__address{font-size:12px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 	.site-header__actions{width:auto;flex:none}
 	.site-header__hotline{display:none}
-	/* Menu đen: một dòng, vuốt ngang */
-	.main-nav{position:sticky;top:0}
+	/* Menu đen: một dòng, vuốt ngang mượt mà */
+	.main-nav{position:sticky;top:0;z-index:35;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 	.main-nav__inner{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:0 18px;padding-top:4px;padding-bottom:4px;font-size:13px}
 	.main-nav__inner::-webkit-scrollbar{display:none}
-	.main-nav__link,.main-nav__list a{white-space:nowrap;min-height:40px}
+	.main-nav__link,.main-nav__list a{white-space:nowrap;min-height:40px;display:flex;align-items:center}
 	.main-nav__list{display:flex;gap:0 18px}
 	.main-nav__cta{display:none}
-	.dropdown{position:sticky;top:48px;max-height:70vh;overflow-y:auto}
+	.dropdown{position:sticky;top:48px;max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 	.dropdown__cars{grid-template-columns:1fr 1fr;gap:8px;padding-top:14px;padding-bottom:14px}
-	.dropdown__cars a{font-size:14px}
+	.dropdown__cars a{font-size:14px;padding:8px}
 	.dropdown__mega{grid-template-columns:1fr 1fr;gap:18px;padding-top:16px;padding-bottom:16px;font-size:14px}
 	/* Nút liên hệ: thanh dưới cùng thay cho nút nổi */
 	.float-contact{display:none}
-	.mbar{display:grid;grid-template-columns:1fr 1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;box-shadow:0 -2px 12px rgba(0,0,0,.15);padding-bottom:env(safe-area-inset-bottom)}
-	.mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:60px;text-decoration:none;font-size:12px;font-weight:700}
+	.mbar{display:grid;grid-template-columns:1fr 1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;box-shadow:0 -2px 14px rgba(0,0,0,.15);padding-bottom:env(safe-area-inset-bottom, 0px)}
+	.mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:58px;text-decoration:none;font-size:12px;font-weight:700;touch-action:manipulation}
 	.mbar__call{background:var(--red);color:#fff}
 	.mbar__zalo{color:#0068FF}.mbar__zalo b{font-size:16px;line-height:18px}
 	.mbar__quote{color:var(--ink);border-left:1px solid #eee}
 	.mbar a:hover{color:inherit}.mbar__call:hover{color:#fff}
-	/* Nội dung */
+	/* Tối ưu form nhập liệu trên điện thoại (chống auto-zoom iOS, nút bấm to) */
+	.lead-form input[type=text],.lead-form input[type=tel],.lead-form input[type=email],.lead-form input[type=date],.lead-form select,.lead-form textarea{font-size:16px!important;height:48px;border-radius:24px}
+	.lead-form textarea{height:auto!important;min-height:84px;border-radius:14px}
+	.lead-form__submit{width:100%!important;align-self:stretch!important;min-height:48px;font-size:16px;font-weight:900;border-radius:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(204,0,0,.3)}
+	.lead-form__radios{gap:10px}
+	.lead-form__radios label{min-height:42px;padding:6px 14px}
+	.popup__close{width:44px;height:44px;top:10px;right:10px}
+	/* Nội dung & Nút bấm thân thiện ngón tay */
 	.consultant{padding:32px 0}
 	.consultant__inner{gap:20px}
 	.consultant__photo{width:180px;height:180px}
-	.consultant .btn-row .btn{flex:1 1 140px}
+	.consultant .btn-row .btn{flex:1 1 140px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
 	.stat__num{font-size:24px}
 	.car-grid{gap:28px}
 	.car-card__img{height:180px}
+	.car-card .btn-row .btn{min-height:42px;display:inline-flex;align-items:center;justify-content:center}
+	.chip{min-height:40px;padding:8px 14px;font-size:14px;touch-action:manipulation}
 	.spec-list .opt{display:none}
 	.quote__img{display:none}
 	.car-hero{padding-top:16px;gap:20px}
