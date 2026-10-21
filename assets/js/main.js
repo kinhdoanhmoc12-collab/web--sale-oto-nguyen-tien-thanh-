@@ -244,6 +244,7 @@
 						store.set('tt_lead_done', '1');
 						done.focus();
 						if (window.dataLayer) window.dataLayer.push({ event: 'generate_lead', form_source: form.getAttribute('data-source') });
+						if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { form_source: form.getAttribute('data-source') || 'lead_form' });
 						if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
 					} else {
 						showErr((res && res.data && res.data.message) || ('Chưa gửi được. Vui lòng gọi ' + (CFG.phone || '') + '.'));
@@ -428,5 +429,19 @@
 			};
 		}
 		render();
+	});
+
+	/* ---------- Click Tracking (Hotline, Zalo) ---------- */
+	document.addEventListener('click', function (e) {
+		var a = e.target && e.target.closest('a');
+		if (!a) return;
+		var href = a.getAttribute('href') || '';
+		if (href.indexOf('tel:') === 0) {
+			if (typeof window.gtag === 'function') window.gtag('event', 'click_hotline', { phone: href.replace('tel:', '') });
+			if (window.dataLayer) window.dataLayer.push({ event: 'click_hotline' });
+		} else if (href.indexOf('zalo.me') !== -1) {
+			if (typeof window.gtag === 'function') window.gtag('event', 'click_zalo', { url: href });
+			if (window.dataLayer) window.dataLayer.push({ event: 'click_zalo' });
+		}
 	});
 })();
