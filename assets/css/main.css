@@ -10,7 +10,7 @@
 @keyframes tt-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes tt-spin-slow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes tt-zalo-ring{0%,100%{transform:rotate(0)}10%{transform:rotate(-15deg)}20%{transform:rotate(15deg)}30%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}50%{transform:rotate(0)}}
-:root{--red:#CC0000;--red-d:#990000;--ink:#1a1a1a;--text:#333;--muted:#555;--line:#e6e6e6;--grey:#f7f7f7;--zalo:#0068FF;--radius:6px}
+:root{--red:#CC0000;--red-d:#990000;--ink:#1a1a1a;--text:#333;--muted:#555;--line:#e6e6e6;--grey:#fff;--zalo:#0068FF;--radius:6px}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif}
@@ -28,8 +28,8 @@ h1,h2,h3{line-height:1.25}
 :focus-visible{outline:3px solid #ffb400;outline-offset:2px}
 .section{padding-top:56px;padding-bottom:56px}
 .section-top{margin-top:40px}.section-bottom{margin-bottom:32px}
-.section--grey{background:#eee}
-.section--light{background:var(--grey)}
+.section--grey{background:#fff}
+.section--light{background:#fff}
 .kicker{font-size:14px;font-weight:700;color:var(--red);letter-spacing:1px}
 .kicker--light{color:#ff8a8a}
 .h-red{margin:0 0 22px;font-size:26px;color:var(--red)}
