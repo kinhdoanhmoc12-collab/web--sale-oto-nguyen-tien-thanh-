@@ -122,6 +122,77 @@
 		lb.addEventListener('click', function (e) { if (e.target === lb || e.target.closest('.lightbox__close')) closeLightbox(); });
 	}
 
+	/* ---------- Popup đăng ký ---------- */
+	var store = {
+		get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+		set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
+	};
+	var popup = D.getElementById('tt-popup');
+	var popupLast = null;
+	function openPopup(car) {
+		if (!popup) return false;
+		closeAll();
+		if (car) {
+			var s = $('select[name="car"]', popup);
+			if (s) s.value = car;
+		}
+		popupLast = D.activeElement;
+		popup.hidden = false;
+		D.body.classList.add('popup-open');
+		var first = $('input[name="name"]', popup) || $('.popup__close', popup);
+		if (first && !popup.querySelector('.lead-form__done:not([hidden])')) setTimeout(function () { first.focus(); }, 60);
+		return true;
+	}
+	function closePopup() {
+		if (!popup || popup.hidden) return;
+		popup.hidden = true;
+		D.body.classList.remove('popup-open');
+		store.set('tt_popup_closed', String(Date.now()));
+		if (popupLast && popupLast.focus) popupLast.focus();
+	}
+	if (popup) {
+		popup.addEventListener('click', function (e) {
+			if (e.target === popup || e.target.closest('[data-popup-close]')) closePopup();
+		});
+		D.addEventListener('keydown', function (e) {
+			if (popup.hidden) return;
+			if (e.key === 'Escape') closePopup();
+			if (e.key === 'Tab') { // keep focus inside the popup
+				var f = $$('a[href],button:not([disabled]),input:not([type=hidden]):not([tabindex="-1"]),select,textarea', popup).filter(function (el) { return el.offsetParent !== null; });
+				if (!f.length) return;
+				if (e.shiftKey && D.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+				else if (!e.shiftKey && D.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+			}
+		});
+		// Nút "Đăng ký tư vấn", "Nhận báo giá" mở popup.
+		$$('[data-popup]').forEach(function (a) {
+			a.addEventListener('click', function (e) {
+				if (openPopup(a.getAttribute('data-car'))) e.preventDefault();
+			});
+		});
+		// Tự hiện sau vài giây (một lần), trừ khi khách đã gửi thông tin hoặc vừa đóng popup.
+		var auto = popup.getAttribute('data-auto') === '1';
+		var delay = (parseFloat(popup.getAttribute('data-delay')) || 0) * 1000;
+		var againMs = (parseFloat(popup.getAttribute('data-again')) || 0) * 3600 * 1000;
+		var closedAt = parseInt(store.get('tt_popup_closed') || '0', 10);
+		var allowed = auto && !store.get('tt_lead_done') && (!closedAt || Date.now() - closedAt > againMs);
+		var shown = false;
+		var tryAuto = function () {
+			if (shown || !allowed || !popup.hidden) return;
+			var a = D.activeElement;
+			if (a && a.closest && a.closest('.lead-form')) return; // khách đang điền form khác
+			shown = true;
+			openPopup();
+		};
+		if (allowed) {
+			setTimeout(tryAuto, delay);
+			D.addEventListener('mouseout', function (e) { // máy tính: khi chuột rời khỏi trang
+				if (!e.relatedTarget && e.clientY <= 0 && Date.now() - start > 5000) tryAuto();
+			});
+		}
+	}
+	var start = Date.now();
+
 	/* ---------- Pre-select car / version from buttons ---------- */
 	$$('[data-car]').forEach(function (a) {
 		a.addEventListener('click', function () {
@@ -170,6 +241,7 @@
 						var t = $('.lead-form__title', form); if (t) t.hidden = true;
 						var done = $('.lead-form__done', form);
 						done.hidden = false;
+						store.set('tt_lead_done', '1');
 						done.focus();
 						if (window.dataLayer) window.dataLayer.push({ event: 'generate_lead', form_source: form.getAttribute('data-source') });
 						if (typeof window.fbq === 'function') window.fbq('track', 'Lead');

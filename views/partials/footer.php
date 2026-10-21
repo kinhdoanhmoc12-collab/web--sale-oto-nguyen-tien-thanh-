@@ -48,11 +48,31 @@ $cols = [
 	<a class="float-contact__call" href="tel:<?= e(tel($phone)) ?>" data-tip="Gọi tư vấn miễn phí"><span class="call-icon"><?= icon('phone', 18) ?></span><?= e($phone) ?></a>
 </div>
 
+<div class="popup" id="tt-popup" hidden role="dialog" aria-modal="true" aria-labelledby="tt-popup-title" data-auto="<?= opt('popup_enabled') === '1' ? '1' : '0' ?>" data-delay="<?= max(0, (int) opt('popup_delay')) ?>" data-again="<?= max(0, (float) opt('popup_again_hours')) ?>">
+	<div class="popup__box">
+		<button type="button" class="popup__close" data-popup-close aria-label="Đóng"><?= icon('close', 22) ?></button>
+		<div class="popup__img">
+			<div class="popup__badge">
+				<span>TƯ VẤN TRỰC TIẾP</span>
+				<strong><?= e(opt('consultant_name')) ?></strong>
+				<em><?= e(opt('consultant_title')) ?></em>
+				<a href="tel:<?= e(tel(opt('phone'))) ?>"><?= icon('phone', 18) ?> <?= e(opt('phone')) ?></a>
+			</div>
+			<?php if (opt('popup_image')) : ?><img src="<?= eu(media(opt('popup_image'))) ?>" alt="" loading="lazy"><?php endif; ?>
+		</div>
+		<div class="popup__body">
+			<?php if (opt('popup_kicker')) : ?><div class="kicker"><?= e(opt('popup_kicker')) ?></div><?php endif; ?>
+			<h2 class="popup__title" id="tt-popup-title"><?= e(opt('popup_title')) ?></h2>
+			<?php partial('lead-form', ['source' => 'popup', 'skin' => 'popup', 'fields' => ['car', 'region'], 'button' => opt('popup_button') ?: 'NHẬN BÁO GIÁ NGAY', 'car' => ($view ?? '') === 'car' ? ($car['name'] ?? '') : '']); ?>
+		</div>
+	</div>
+</div>
+
 <?php $qHref = ($view ?? '') === 'car' ? '#bao-gia' : (($view ?? '') === 'home' ? '#dang-ky' : url('#dang-ky')); ?>
 <nav class="mbar" aria-label="Liên hệ nhanh">
 	<a class="mbar__call" href="tel:<?= e(tel($phone)) ?>"><?= icon('phone', 18) ?><span>Gọi ngay</span></a>
 	<a class="mbar__zalo" href="https://zalo.me/<?= e(tel(opt('zalo'))) ?>" target="_blank" rel="noopener"><b>Zalo</b><span>Nhắn tin</span></a>
-	<a class="mbar__quote" href="<?= e($qHref) ?>"><?= icon('mail', 18) ?><span>Nhận báo giá</span></a>
+	<a class="mbar__quote" href="<?= e($qHref) ?>" data-popup><?= icon('mail', 18) ?><span>Nhận báo giá</span></a>
 </nav>
 
 <div class="lightbox" id="tt-lightbox" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh lớn">

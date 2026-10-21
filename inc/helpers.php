@@ -53,6 +53,14 @@ function defaults(): array
         'updated_date' => '20/10/2026',
         'form_image' => 'assets/img/xforce-form.webp',
         'home_cars_per_page' => '6',
+        // Popup đăng ký
+        'popup_enabled' => '1',
+        'popup_kicker' => 'ƯU ĐÃI THÁNG NÀY',
+        'popup_title' => 'Nhận báo giá lăn bánh & ưu đãi mới nhất',
+        'popup_image' => 'assets/img/xforce-form.webp',
+        'popup_button' => 'NHẬN BÁO GIÁ NGAY',
+        'popup_delay' => '15',
+        'popup_again_hours' => '24',
         // Phí lăn bánh
         'fee_rate_hn' => '12',
         'fee_rate_hcm' => '10',

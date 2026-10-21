@@ -302,7 +302,7 @@ if ($p === 'backup' && hash_equals(csrf(), get_('t'))) {
  * ======================================================= */
 function source_label(string $s): string
 {
-    return ['trang-chu' => 'Trang chủ', 'trang-xe' => 'Trang xe', 'lai-thu' => 'Lái thử', 'dat-lich-dich-vu' => 'Đặt lịch dịch vụ'][$s] ?? $s;
+    return ['trang-chu' => 'Trang chủ', 'trang-xe' => 'Trang xe', 'lai-thu' => 'Lái thử', 'dat-lich-dich-vu' => 'Đặt lịch dịch vụ', 'popup' => 'Popup'][$s] ?? $s;
 }
 
 function settings_schema(): array
@@ -345,6 +345,15 @@ function settings_schema(): array
             'updated_date' => ['Ngày cập nhật giá hiển thị (dd/mm/yyyy)', 'text'],
             'form_image' => ['Ảnh cạnh form đăng ký ở trang chủ', 'image'],
             'home_cars_per_page' => ['Số xe mỗi trang ở mục "Các dòng xe" trang chủ', 'number'],
+        ]],
+        'popup' => ['title' => 'Popup đăng ký', 'note' => 'Khung đăng ký tự hiện sau vài giây khi khách vào web, và mở ra khi khách bấm "Đăng ký tư vấn" hoặc "Nhận báo giá". Khách đã gửi thông tin hoặc đã đóng popup sẽ không bị hiện lại trong thời gian đặt bên dưới.', 'fields' => [
+            'popup_enabled' => ['Tự hiện popup khi khách vào web', 'select', ['1' => 'Bật', '0' => 'Tắt (chỉ mở khi khách bấm nút)']],
+            'popup_kicker' => ['Dòng chữ đỏ nhỏ phía trên', 'text'],
+            'popup_title' => ['Tiêu đề popup', 'text'],
+            'popup_button' => ['Chữ trên nút gửi', 'text'],
+            'popup_image' => ['Ảnh xe ở cột trái popup (ảnh ngang nền tối, khoảng 1200 × 900 px; trên điện thoại cột này được ẩn)', 'image'],
+            'popup_delay' => ['Hiện sau bao nhiêu giây', 'number'],
+            'popup_again_hours' => ['Khách đóng popup thì bao nhiêu giờ sau mới hiện lại', 'number'],
         ]],
         'fees' => ['title' => 'Phí lăn bánh', 'note' => 'Dùng cho máy tính "Dự tính chi phí lăn bánh". Đơn vị: % cho lệ phí trước bạ, đồng cho các khoản còn lại.', 'fields' => [
             'fee_rate_hn' => ['Lệ phí trước bạ Hà Nội (%)', 'number'],
@@ -849,7 +858,7 @@ switch ($p) {
                             if ($f[1] === 'image') {
                                 echo image_field($fk, $f[0], $v);
                             } else {
-                                echo field($fk, html_entity_decode($f[0]), $v, $f[1] === 'number' ? 'text' : $f[1], '', ['rows' => 3]);
+                                echo field($fk, html_entity_decode($f[0]), $v, $f[1] === 'number' ? 'text' : $f[1], '', ['rows' => 3, 'options' => $f[2] ?? []]);
                             }
                             ?>
                         <?php endforeach; ?>
