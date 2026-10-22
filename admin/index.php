@@ -83,7 +83,6 @@ if ($p === 'login' || !logged_in()) {
         <?= csrf_field() ?>
         <label>Mật khẩu<input type="password" name="password" required autofocus autocomplete="current-password"></label>
         <button class="btn btn--primary btn--block">Đăng nhập</button>
-        <p class="hint">Quên mật khẩu: vào File Manager của hosting, tạo file trống tên <code>quen-mat-khau.txt</code> trong thư mục <code>data</code>, rồi mở lại trang này để đặt mật khẩu mới.</p>
     </form>
     <?php
     layout_end();
