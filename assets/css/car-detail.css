@@ -45,9 +45,9 @@
 .cd-eq.is-open li{display:list-item!important}
 .cd-more{margin-top:8px;background:none;border:0;padding:6px 0;font:inherit;font-weight:700;color:var(--cd-red);cursor:pointer}
 .cd-links{display:flex;flex-wrap:wrap;gap:18px;margin-top:22px;font-size:14px;font-weight:700}
-.cd-version__img{background:var(--cd-soft);display:flex;align-items:center;justify-content:center;padding:40px 24px;overflow:hidden}
+.cd-version__img{background:#fff;display:flex;align-items:center;justify-content:center;padding:40px 24px;overflow:hidden}
 .cd-version__pic{width:100%}
-.cd-version__pic img{display:block;width:115%;max-width:none;margin-left:-15%;height:auto;object-fit:contain;filter:drop-shadow(0 20px 18px rgba(0,0,0,.2))}
+.cd-version__pic img{display:block;width:115%;max-width:none;margin-left:-15%;height:auto;object-fit:contain;filter:drop-shadow(0 20px 18px rgba(0,0,0,.15))}
 .cd-version__pic .cd-ph{min-height:360px}
 
 /* 3. Màu sắc */
