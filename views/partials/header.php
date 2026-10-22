@@ -70,7 +70,7 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <nav class="main-nav" aria-label="Menu chính">
 	<div class="container main-nav__inner">
 		<a href="<?= e(url()) ?>" class="main-nav__link<?= ($ACTIVE ?? '') === 'home' ? ' is-active' : '' ?>">Trang chủ</a>
-		<button type="button" class="main-nav__link<?= ($ACTIVE ?? '') === 'car' ? ' is-active' : '' ?>" data-toggle="cars" aria-controls="tt-cars" aria-expanded="false">Xe mới <?= icon('down', 12) ?></button>
+		<button type="button" class="main-nav__link<?= ($ACTIVE ?? '') === 'car' ? ' is-active' : '' ?>" data-toggle="cars" aria-controls="tt-cars" aria-expanded="false">Mua xe <?= icon('down', 12) ?></button>
 		<ul class="main-nav__list">
 			<?= $navLink('bang-gia', 'Bảng giá') ?>
 			<?= $navLink('khuyen-mai', 'Khuyến mãi') ?>
@@ -94,7 +94,7 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <div class="dropdown" id="tt-mega" hidden>
 	<div class="container dropdown__mega">
 		<div>
-			<div class="dropdown__head">XE MỚI</div>
+			<div class="dropdown__head">DÒNG XE</div>
 			<?php foreach ($navCars as $c) : ?><a href="<?= e(car_url($c)) ?>"><?= e($c['name']) ?></a><?php endforeach; ?>
 		</div>
 		<div>

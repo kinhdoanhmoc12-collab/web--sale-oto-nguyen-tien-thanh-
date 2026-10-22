@@ -7,7 +7,7 @@
 	var $$ = function (s, r) { return Array.prototype.slice.call((r || D).querySelectorAll(s)); };
 	var fmt = function (n) { return Math.round(n).toLocaleString('vi-VN'); };
 
-	/* ---------- Dropdowns: "Xe mới" and mega menu ---------- */
+	/* ---------- Dropdowns: "Mua xe" and mega menu ---------- */
 	var toggles = $$('[data-toggle]');
 	function closeAll(except) {
 		toggles.forEach(function (b) {

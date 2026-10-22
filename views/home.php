@@ -35,7 +35,7 @@ include __DIR__ . '/partials/header.php';
 
 <?php partial('consultant'); ?>
 
-<section id="xe-moi" class="section container">
+<section id="mua-xe" class="section container">
 	<div class="title-line"><h2>CÁC DÒNG XE Ô TÔ MITSUBISHI</h2></div>
 	<div class="car-grid" data-per="<?= max(1, (int) opt('home_cars_per_page')) ?>">
 		<?php foreach ($allCars as $c) { partial('car-card', ['c' => $c]); } ?>

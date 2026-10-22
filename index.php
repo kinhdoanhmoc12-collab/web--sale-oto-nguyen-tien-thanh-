@@ -34,6 +34,10 @@ if ($path === 'api/lead') {
     require ROOT . '/inc/lead.php';
     exit;
 }
+if ($path === 'mua-xe' || $path === 'xe-moi') {
+    header('Location: ' . url('#mua-xe'), true, 301);
+    exit;
+}
 if ($path === 'admin') {
     header('Location: ' . url('admin/'), true, 301);
     exit;
