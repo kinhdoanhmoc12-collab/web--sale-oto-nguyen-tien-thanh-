@@ -105,19 +105,25 @@
 .cd-feat--rev .cd-feat__img{order:2}
 
 /* 7. Phụ kiện */
-.cd-accs{position:relative;padding:60px 0;margin:40px 0;background:#fff var(--bg, none) center/cover no-repeat}
+.cd-accs{position:relative;padding:48px 0;margin:32px 0}
+.cd-accs__hero{position:relative;width:100%;border-radius:4px;overflow:hidden;background:#f5f5f5}
+.cd-accs__banner{width:100%;line-height:0}
+.cd-accs__banner img{width:100%;height:auto;display:block}
+.cd-accs__hero .cd-accs__box{position:absolute;top:40px;left:40px;width:min(360px,calc(100% - 80px));background:#000;color:#fff;padding:36px 32px;z-index:2;box-shadow:0 12px 36px rgba(0,0,0,.4)}
+.cd-accs__hero .cd-accs__box h2{margin:0 0 14px;font-size:32px;font-weight:900;line-height:1.2}
+.cd-accs__hero .cd-accs__box p{margin:0 0 24px;font-size:15px;line-height:1.65;color:#eee}
+.cd-accs__hero .cd-accs__box .cd-btn{min-width:0;width:100%}
 .cd-accs__inner{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:48px;align-items:start}
-.cd-accs__box{background:#000;color:#fff;padding:40px;position:sticky;top:80px}
-.cd-accs__box h2{margin:0 0 14px;font-size:34px;font-weight:900;line-height:1.2}
-.cd-accs__box p{margin:0 0 26px;font-size:16px;line-height:1.7}
-.cd-accs__box .cd-btn{min-width:0;width:100%}
+.cd-accs__inner .cd-accs__box{background:#000;color:#fff;padding:40px;position:sticky;top:80px}
+.cd-accs__inner .cd-accs__box h2{margin:0 0 14px;font-size:34px;font-weight:900;line-height:1.2}
+.cd-accs__inner .cd-accs__box p{margin:0 0 26px;font-size:16px;line-height:1.7}
+.cd-accs__inner .cd-accs__box .cd-btn{min-width:0;width:100%}
 .cd-accs__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 20px}
+.cd-accs__grid--more{margin-top:32px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .cd-acc-item{margin:0;display:flex;flex-direction:column;gap:12px;text-align:center}
 .cd-acc-item__img{aspect-ratio:16/10;background:#fff;overflow:hidden;clip-path:polygon(4% 0,100% 0,96% 100%,0 100%)}
 .cd-acc-item__img img{width:100%;height:100%;object-fit:cover}
 .cd-acc-item figcaption{font-size:16px;font-weight:900;color:#111}
-.cd-accs__visual{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;overflow:hidden}
-.cd-accs__visual img{width:100%;height:auto;max-height:640px;object-fit:contain;display:block}
 
 /* Giới thiệu & form */
 .cd-intro{padding-top:40px;padding-bottom:20px;max-width:900px}
@@ -139,6 +145,7 @@
 	.cd-hl__box{position:relative;top:0;right:auto;width:auto;margin:-40px 16px 0}
 	.cd-accs__inner{grid-template-columns:1fr}
 	.cd-accs__box{position:relative;top:0}
+	.cd-accs__hero .cd-accs__box{position:relative;top:0;left:0;width:auto;margin:0;box-shadow:none;padding:28px 20px}
 }
 
 /* Điện thoại */
