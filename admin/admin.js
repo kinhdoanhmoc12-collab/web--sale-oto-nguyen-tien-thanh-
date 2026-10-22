@@ -14,7 +14,7 @@
 			if (!file || !file.type || !file.type.startsWith('image/') || file.type === 'image/gif') {
 				return resolve(file);
 			}
-			var maxD = maxDimension || 1600;
+			var maxD = maxDimension || 1920;
 			var q = typeof quality === 'number' ? quality : 0.85;
 
 			var reader = new FileReader();
@@ -24,7 +24,7 @@
 					var w = img.naturalWidth || img.width;
 					var h = img.naturalHeight || img.height;
 					var needResize = w > maxD || h > maxD;
-					var needCompress = file.size > 800 * 1024;
+					var needCompress = file.size > 300 * 1024;
 
 					if (!needResize && !needCompress) {
 						return resolve(file);
@@ -93,6 +93,10 @@
 		});
 	}
 
+	// Cho trình sửa "Trang chi tiết xe" dùng chung bộ nén ảnh.
+	window.ttCompressImage = compressImageFile;
+	window.ttFormatBytes = formatBytes;
+
 	// Xem trước ảnh ngay khi chọn file + tự động tối ưu nếu ảnh nặng quá giới hạn hosting.
 	document.querySelectorAll('.imgfield input[type=file]').forEach(function (inp) {
 		inp.addEventListener('change', function () {
@@ -111,12 +115,12 @@
 			}
 
 			var oldSize = f.size;
-			if (oldSize > 800 * 1024) {
-				status.textContent = '⏳ Đang tự động tối ưu dung lượng ảnh...';
+			if (oldSize > 300 * 1024) {
+				status.textContent = '⏳ Đang tự động nén ảnh...';
 				status.style.color = '#b26b00';
 				status.style.fontWeight = '600';
 
-				compressImageFile(f, 1600, 0.85).then(function (optimized) {
+				compressImageFile(f, 1920, 0.85).then(function (optimized) {
 					if (optimized && optimized.size < oldSize && window.DataTransfer) {
 						try {
 							var dt = new DataTransfer();
@@ -124,7 +128,7 @@
 							inp.files = dt.files;
 							var newUrl = URL.createObjectURL(optimized);
 							box.innerHTML = '<img src="' + newUrl + '" alt="">';
-							status.innerHTML = '✓ Đã tối ưu nhẹ: <b>' + formatBytes(oldSize) + '</b> ➔ <b>' + formatBytes(optimized.size) + '</b> (Đã sẵn sàng lưu).';
+							status.innerHTML = '✓ Đã nén ảnh: <b>' + formatBytes(oldSize) + '</b> ➔ <b>' + formatBytes(optimized.size) + '</b> (Đã sẵn sàng lưu).';
 							status.style.color = '#1a7f37';
 						} catch (e3) {
 							status.textContent = '';
@@ -150,7 +154,7 @@
 			var fileInputs = form.querySelectorAll('input[type=file]');
 			var hasLarge = false;
 			fileInputs.forEach(function (inp) {
-				if (inp.files && inp.files[0] && inp.files[0].size > 800 * 1024) {
+				if (inp.files && inp.files[0] && inp.files[0].size > 300 * 1024) {
 					hasLarge = true;
 				}
 			});
@@ -163,9 +167,9 @@
 				var promises = [];
 				fileInputs.forEach(function (inp) {
 					var f = inp.files && inp.files[0];
-					if (f && f.size > 800 * 1024) {
+					if (f && f.size > 300 * 1024) {
 						promises.push(
-							compressImageFile(f, 1600, 0.85).then(function (optFile) {
+							compressImageFile(f, 1920, 0.85).then(function (optFile) {
 								if (optFile) {
 									var dt = new DataTransfer();
 									dt.items.add(optFile);
@@ -221,7 +225,7 @@
 			images_upload_handler: function (blobInfo) {
 				return new Promise(function (resolve, reject) {
 					var rawFile = blobInfo.blob();
-					Promise.resolve(rawFile.size > 800 * 1024 ? compressImageFile(rawFile, 1600, 0.85) : rawFile).then(function (finalFile) {
+					Promise.resolve(rawFile.size > 300 * 1024 ? compressImageFile(rawFile, 1920, 0.85) : rawFile).then(function (finalFile) {
 						var fd = new FormData();
 						fd.append('file', finalFile, blobInfo.filename());
 						fd.append('csrf', ADM.csrf);

@@ -105,7 +105,7 @@
 .cd-feat--rev .cd-feat__img{order:2}
 
 /* 7. Phụ kiện */
-.cd-accs{position:relative;padding:60px 0;margin:40px 0;background:#fff}
+.cd-accs{position:relative;padding:60px 0;margin:40px 0;background:#fff var(--bg, none) center/cover no-repeat}
 .cd-accs__inner{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:48px;align-items:start}
 .cd-accs__box{background:#000;color:#fff;padding:40px;position:sticky;top:80px}
 .cd-accs__box h2{margin:0 0 14px;font-size:34px;font-weight:900;line-height:1.2}
@@ -119,7 +119,7 @@
 
 /* Giới thiệu & form */
 .cd-intro{padding-top:40px;padding-bottom:20px;max-width:900px}
-.cd-form{padding:64px 0 80px;background:#fff}
+.cd-form{padding:64px 0 80px;background:#fff var(--bg, none) center/cover no-repeat}
 .cd-form__inner{max-width:760px}
 .cd-form .cd-h2{margin-bottom:12px}
 .cd-form__sub{text-align:center;color:var(--cd-muted);margin:0 0 28px}
@@ -172,3 +172,47 @@
 
 /* Chưa có ảnh riêng: dùng ảnh xe chính, hiển thị trọn xe trên nền sáng */
 .cd-feat__img img.is-fallback{object-fit:contain;padding:8% 10%;background:linear-gradient(180deg,#f6f7f9,#e7eaee)}
+
+/* ===== Điện thoại: bản gọn (bổ sung 22/10) ===== */
+@media (max-width:640px){
+	/* Chọn phiên bản: thẻ ngang, 2 thẻ/màn hình, không dùng dải xám chéo */
+	.cd-picker{padding:20px 0 8px}
+	.cd-picker__title{font-size:26px}
+	.cd-picker__from{font-size:15px}
+	.cd-picker__from strong{font-size:19px}
+	.cd-picker__list{grid-auto-columns:calc(50% - 6px);gap:12px;padding:8px 16px 4px;scroll-padding:0 16px}
+	.cd-picker__list--1{grid-auto-columns:100%}
+	.cd-pick{scroll-snap-align:start;padding:10px 8px 12px;gap:2px;border:1px solid #e3e3e3;border-radius:10px;background:#fff;transition:border-color .2s,background .2s}
+	.cd-pick::before{display:none}
+	.cd-pick.is-on{border-color:var(--cd-ink);background:var(--cd-soft);box-shadow:inset 0 -3px 0 var(--cd-red)}
+	.cd-pick__img img{filter:none}
+	.cd-pick .cd-ph{min-height:0}
+	.cd-pick__name{margin-top:6px;font-size:15px}
+	.cd-pick__price{font-size:12.5px;color:var(--cd-muted)}
+	/* Phiên bản */
+	.cd-version{margin-top:16px}
+	.cd-version__img{padding:16px}
+	.cd-version__text{padding:24px 16px 32px}
+	.cd-tabs{gap:4px 20px;margin-bottom:18px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+	.cd-tabs::-webkit-scrollbar{display:none}
+	.cd-tab{padding:10px 0;white-space:nowrap;font-size:14px}
+	.cd-pane__name{font-size:36px}
+	.cd-pane__desc{font-size:15px;line-height:1.65}
+	.cd-eq{font-size:14.5px;line-height:1.7}
+	.cd-more,.cd-links a{display:inline-block;padding:8px 0}
+	/* Khoảng cách giữa các mục gọn lại */
+	.cd-colors{padding:36px 0 16px}
+	.cd-color__img{aspect-ratio:16/9}
+	.cd-swatches{gap:12px}
+	.cd-swatch{width:32px;height:32px}
+	.cd-specs{padding:32px 0 24px}
+	.cd-collapse{margin-top:16px;padding:10px 0}
+	.cd-hl{margin-top:16px}
+	.cd-feats{padding:8px 0}
+	.cd-feat__text{padding:24px 16px 36px}
+	.cd-feat__text h2{font-size:24px;line-height:1.2}
+	.cd-accs{padding:32px 0;margin:16px 0}
+	.cd-intro{padding-top:24px}
+	.cd-form{padding:40px 0 48px}
+	.cd-h2{font-size:26px;margin-bottom:18px}
+}

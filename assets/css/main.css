@@ -698,3 +698,21 @@ body.popup-open{overflow:hidden}
 	.author-box{gap:14px}
 	.split-hero__img{min-height:220px;max-height:260px}
 }
+
+/* ===== Tối ưu điện thoại (bổ sung 22/10) ===== */
+@media (max-width:640px){
+	/* Bỏ dải trắng dưới chân trang: chừa chỗ cho thanh Gọi/Zalo ngay trong chân trang đen */
+	body{padding-bottom:0}
+	.site-footer__bottom{padding-bottom:calc(92px + env(safe-area-inset-bottom, 0px))}
+	/* Ô nhập chữ ≥16px để iPhone không tự phóng to khi bấm vào */
+	.lead-form input[type=text],.lead-form input[type=tel],.lead-form input[type=date],.lead-form input[type=email],.lead-form select,.lead-form textarea,
+	.calc input,.calc select,input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{font-size:16px}
+	/* Link chân trang dễ bấm hơn */
+	.site-footer__col{gap:2px}
+	.site-footer__col a{display:block;padding:7px 0}
+	/* Ảnh, bảng không bao giờ tràn ngang */
+	img,video,iframe{max-width:100%}
+	.entry{overflow-wrap:break-word}
+	.entry table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media (prefers-reduced-motion:reduce){.tt-reveal,.tt-reveal-left,.tt-reveal-right,.tt-reveal-scale{opacity:1!important;transform:none!important;transition:none!important}}
