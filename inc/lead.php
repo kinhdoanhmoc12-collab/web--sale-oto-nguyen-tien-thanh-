@@ -107,6 +107,27 @@ if ($to) {
     }
 }
 
+// Telegram notification.
+$tgToken = opt('telegram_bot_token');
+$tgChat = opt('telegram_chat_id');
+if ($tgToken && $tgChat) {
+    $cleanPhone = preg_replace('/\D+/', '', $lead['phone'] ?? '');
+    $msg = "🚗 <b>CÓ KHÁCH ĐĂNG KÝ MỚI!</b>\n";
+    $msg .= "━━━━━━━━━━━━━━━━━━━━\n";
+    if (!empty($lead['name']))   $msg .= "👤 <b>Họ tên:</b> " . htmlspecialchars($lead['name']) . "\n";
+    if (!empty($lead['phone']))  $msg .= "📞 <b>Điện thoại:</b> <a href=\"tel:{$cleanPhone}\">" . htmlspecialchars($lead['phone']) . "</a> <i>(Bấm gọi)</i>\n";
+    if (!empty($lead['car']))    $msg .= "🚘 <b>Dòng xe:</b> " . htmlspecialchars($lead['car']) . "\n";
+    if (!empty($lead['region'])) $msg .= "📍 <b>Khu vực:</b> " . htmlspecialchars($lead['region']) . "\n";
+    if (!empty($lead['pay']))    $msg .= "💳 <b>Thanh toán:</b> " . htmlspecialchars($lead['pay']) . "\n";
+    if (!empty($lead['source'])) $msg .= "📝 <b>Nguồn form:</b> " . htmlspecialchars($lead['source']) . "\n";
+    if (!empty($lead['extra']))  $msg .= "💬 <b>Ghi chú:</b> " . htmlspecialchars($lead['extra']) . "\n";
+    $msg .= "⏰ <b>Thời gian:</b> " . date('H:i:s d/m/Y') . "\n";
+    $msg .= "━━━━━━━━━━━━━━━━━━━━\n";
+    $msg .= "👉 <a href=\"" . full_url('admin/?p=leads') . "\">Xem trong quản trị web</a>";
+
+    send_telegram_lead($tgToken, $tgChat, $msg);
+}
+
 // Google Sheets (Apps Script web app).
 $hook = opt('lead_webhook');
 if ($hook && preg_match('~^https://~', $hook)) {

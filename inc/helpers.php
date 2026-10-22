@@ -82,6 +82,8 @@ function defaults(): array
         // Nhận khách
         'lead_email' => 'mindi151202@gmail.com',
         'lead_webhook' => '',
+        'telegram_bot_token' => '8967888487:AAGzciUKh5avy31AmIT9jhzsLBVZlUPzQMI',
+        'telegram_chat_id' => '8818844092',
         'smtp_enabled' => '0',
         'smtp_host' => 'smtp.gmail.com',
         'smtp_port' => '587',
@@ -474,5 +476,46 @@ function send_smtp_mail(string $to, string $subject, string $body): bool
     $send("QUIT");
     fclose($sock);
     return substr($res, 0, 3) === '250';
+}
+
+/** Gửi thông báo khách mới qua Telegram Bot. */
+function send_telegram_lead(string $token, string $chat_id, string $text): bool
+{
+    $token = trim($token);
+    $chat_id = trim($chat_id);
+    if (!$token || !$chat_id) {
+        return false;
+    }
+    $url = "https://api.telegram.org/bot{$token}/sendMessage";
+    $postData = [
+        'chat_id' => $chat_id,
+        'text' => $text,
+        'parse_mode' => 'HTML',
+        'disable_web_page_preview' => 'true',
+    ];
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($postData),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 6,
+            CURLOPT_SSL_VERIFYPEER => false,
+        ]);
+        $res = @curl_exec($ch);
+        curl_close($ch);
+        return !empty($res);
+    }
+
+    $ctx = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => http_build_query($postData),
+            'timeout' => 6,
+        ],
+    ]);
+    return @file_get_contents($url, false, $ctx) !== false;
 }
 

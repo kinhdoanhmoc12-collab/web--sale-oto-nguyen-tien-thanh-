@@ -407,6 +407,8 @@ function settings_schema(): array
         ]],
         'leads' => ['title' => 'Nhận khách & SEO', 'note' => 'Khách điền form luôn được lưu ở mục Khách hàng. Bên dưới là nơi nhận thông báo email và cài đặt Google.', 'fields' => [
             'lead_email' => ['Email nhận thông báo khi có khách', 'email'],
+            'telegram_bot_token' => ['Telegram Bot Token (Báo khách siêu tốc về điện thoại)', 'text'],
+            'telegram_chat_id' => ['Telegram Chat ID (ID cá nhân hoặc ID nhóm nhận tin)', 'text'],
             'smtp_enabled' => ['Gửi qua máy chủ SMTP (1 = Bật, 0 = Tắt, khuyên dùng cho Gmail)', 'text'],
             'smtp_host' => ['SMTP Host (ví dụ: smtp.gmail.com)', 'text'],
             'smtp_port' => ['SMTP Port (587 hoặc 465)', 'number'],
