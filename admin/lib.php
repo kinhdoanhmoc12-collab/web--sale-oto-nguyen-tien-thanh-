@@ -56,8 +56,10 @@ function save_upload(string $field, int $maxW = 1920, ?array $file = null): stri
     }
     $ext = $types[$info[2]];
     $dir = date('Y/m');
-    if (!is_dir(UPLOAD_DIR . '/' . $dir)) {
-        mkdir(UPLOAD_DIR . '/' . $dir, 0755, true);
+    $uploadSubDir = UPLOAD_DIR . '/' . $dir;
+    if (!is_dir($uploadSubDir)) {
+        @mkdir($uploadSubDir, 0777, true);
+        @chmod($uploadSubDir, 0777);
     }
     $base = slugify(pathinfo($f['name'], PATHINFO_FILENAME)) ?: 'anh';
     $name = substr($base, 0, 50) . '-' . substr(bin2hex(random_bytes(4)), 0, 6);
@@ -80,11 +82,12 @@ function save_upload(string $field, int $maxW = 1920, ?array $file = null): stri
             $resized = (bool) $ok;
         }
     }
-    if (!$resized && !move_uploaded_file($f['tmp_name'], $dest)) {
-        if (!copy($f['tmp_name'], $dest)) {
-            throw new RuntimeException('Không lưu được ảnh. Kiểm tra quyền ghi thư mục uploads.');
+    if (!$resized && !@move_uploaded_file($f['tmp_name'], $dest)) {
+        if (!@copy($f['tmp_name'], $dest)) {
+            throw new RuntimeException('Không lưu được ảnh vào thư mục uploads. Vui lòng kiểm tra quyền ghi.');
         }
     }
+    @chmod($dest, 0664);
     return "uploads/$dir/$name.$ext";
 }
 

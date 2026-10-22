@@ -105,7 +105,7 @@
 .cd-feat--rev .cd-feat__img{order:2}
 
 /* 7. Phụ kiện */
-.cd-accs{position:relative;padding:60px 0;margin:40px 0;background:var(--bg, linear-gradient(180deg,#dfe8f1,#b8c7d6)) center/cover no-repeat}
+.cd-accs{position:relative;padding:60px 0;margin:40px 0;background:#fff}
 .cd-accs__inner{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:48px;align-items:start}
 .cd-accs__box{background:#000;color:#fff;padding:40px;position:sticky;top:80px}
 .cd-accs__box h2{margin:0 0 14px;font-size:34px;font-weight:900;line-height:1.2}

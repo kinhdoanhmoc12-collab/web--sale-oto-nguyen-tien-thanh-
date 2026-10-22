@@ -40,7 +40,6 @@
 			{ key: 'accessories', label: 'Phụ kiện chính hãng', type: 'group', fields: [
 				{ key: 'title', label: 'Tiêu đề', type: 'text' },
 				{ key: 'desc', label: 'Mô tả', type: 'textarea', rows: 2 },
-				{ key: 'image', label: 'Ảnh nền cả mục (tùy chọn)', type: 'image' },
 				{ key: 'items', label: 'Danh sách phụ kiện', type: 'list', add: '+ Thêm phụ kiện', title: 'name', compact: true, fields: [
 					{ key: 'name', label: 'Tên phụ kiện', type: 'text' },
 					{ key: 'image', label: 'Ảnh (~800 × 500 px)', type: 'image' }
@@ -70,31 +69,136 @@
 		function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 		function src(v) { return !v ? '' : /^(https?:)?\//.test(v) ? v : (adm().base || '/') + v; }
 
+		function compressImage(file, maxD, quality) {
+			return new Promise(function (resolve) {
+				if (!file || !file.type || !file.type.startsWith('image/') || file.type === 'image/gif' || file.type === 'image/svg+xml') {
+					return resolve(file);
+				}
+				var maxDim = maxD || 1600;
+				var q = typeof quality === 'number' ? quality : 0.88;
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var img = new Image();
+					img.onload = function () {
+						var w = img.naturalWidth || img.width;
+						var h = img.naturalHeight || img.height;
+						if (w <= maxDim && h <= maxDim && file.size <= 600 * 1024) {
+							return resolve(file);
+						}
+						var tw = w, th = h;
+						if (w > h) {
+							if (w > maxDim) { th = Math.round(h * (maxDim / w)); tw = maxDim; }
+						} else {
+							if (h > maxDim) { tw = Math.round(w * (maxDim / h)); th = maxDim; }
+						}
+						var cvs = document.createElement('canvas');
+						cvs.width = tw; cvs.height = th;
+						var ctx = cvs.getContext('2d');
+						if (!ctx) return resolve(file);
+						var isPng = file.type === 'image/png';
+						if (!isPng) {
+							ctx.fillStyle = '#FFFFFF';
+							ctx.fillRect(0, 0, tw, th);
+						}
+						ctx.drawImage(img, 0, 0, tw, th);
+						var outType = isPng ? 'image/png' : 'image/jpeg';
+						cvs.toBlob(function (blob) {
+							if (!blob) return resolve(file);
+							var ext = isPng ? '.png' : '.jpg';
+							var baseName = (file.name || 'image').replace(/\.[^.]+$/, '');
+							try {
+								resolve(new File([blob], baseName + ext, { type: outType, lastModified: Date.now() }));
+							} catch (e2) {
+								resolve(blob);
+							}
+						}, outType, isPng ? undefined : q);
+					};
+					img.onerror = function () { resolve(file); };
+					img.src = e.target.result;
+				};
+				reader.onerror = function () { resolve(file); };
+				reader.readAsDataURL(file);
+			});
+		}
+
 		function imageField(obj, f) {
 			var w = el('div', 'cde-img');
 			var prev = el('div', 'cde-img__prev');
-			var paint = function () { prev.innerHTML = obj[f.key] ? '<img src="' + esc(src(obj[f.key])) + '" alt="">' : '<span>Chưa có ảnh</span>'; rm.hidden = !obj[f.key]; };
+			var textInput = el('input');
+			textInput.type = 'text';
+			textInput.placeholder = 'Đường dẫn ảnh (hoặc bấm Chọn tệp ở trên)';
+			textInput.style.cssText = 'width:100%;font-size:12px;padding:6px 8px;border:1px solid #ccc;border-radius:6px;';
+			textInput.value = obj[f.key] || '';
+			textInput.oninput = function () {
+				obj[f.key] = textInput.value.trim();
+				save();
+				paint();
+			};
+
+			var paint = function () {
+				prev.innerHTML = obj[f.key] ? '<img src="' + esc(src(obj[f.key])) + '" alt="">' : '<span>Chưa có ảnh</span>';
+				rm.hidden = !obj[f.key];
+				if (textInput.value !== (obj[f.key] || '')) {
+					textInput.value = obj[f.key] || '';
+				}
+			};
+
 			var file = el('input'); file.type = 'file'; file.accept = 'image/jpeg,image/png,image/webp,image/gif';
 			var status = el('span', 'cde-img__status');
 			var rm = el('button', 'cde-link', 'Bỏ ảnh'); rm.type = 'button';
-			rm.onclick = function () { obj[f.key] = ''; save(); paint(); };
+			rm.onclick = function () { obj[f.key] = ''; textInput.value = ''; save(); paint(); status.textContent = ''; };
+
 			file.onchange = function () {
 				var fl = file.files && file.files[0];
 				if (!fl) return;
-				status.textContent = 'Đang tải ảnh…';
-				var fd = new FormData(); fd.append('file', fl); fd.append('csrf', adm().csrf || '');
-				fetch(adm().upload || '', { method: 'POST', body: fd, headers: { 'X-CSRF': adm().csrf || '' }, credentials: 'same-origin' })
-					.then(function (r) { return r.json(); })
-					.then(function (j) {
-						if (j.location) { obj[f.key] = j.location; save(); paint(); status.textContent = 'Đã tải ảnh ✓'; }
-						else status.textContent = j.error || 'Không tải được ảnh';
-					})
-					.catch(function () { status.textContent = 'Mất kết nối khi tải ảnh'; })
-					.then(function () { file.value = ''; });
+				status.style.color = '#1a7f37';
+				status.textContent = 'Đang xử lý ảnh…';
+				compressImage(fl, 1600, 0.88).then(function (finalFile) {
+					status.textContent = 'Đang tải lên máy chủ…';
+					var fd = new FormData();
+					fd.append('file', finalFile, fl.name || 'image.png');
+					fd.append('csrf', adm().csrf || '');
+					var uploadUrl = adm().upload || (adm().base ? adm().base + 'admin/?p=upload' : '/admin/?p=upload');
+					fetch(uploadUrl, { method: 'POST', body: fd, headers: { 'X-CSRF': adm().csrf || '' }, credentials: 'same-origin' })
+						.then(function (r) {
+							return r.text().then(function (text) {
+								try {
+									var json = JSON.parse(text);
+									return { ok: r.ok, status: r.status, data: json };
+								} catch (err) {
+									return { ok: false, status: r.status, error: 'Phản hồi từ máy chủ (' + r.status + '): ' + text.substring(0, 150) };
+								}
+							});
+						})
+						.then(function (res) {
+							if (res.ok && res.data && res.data.location) {
+								obj[f.key] = res.data.location;
+								textInput.value = res.data.location;
+								save();
+								paint();
+								status.style.color = '#1a7f37';
+								status.textContent = 'Đã tải ảnh thành công ✓';
+							} else {
+								var msg = (res.data && res.data.error) || res.error || ('Lỗi tải ảnh (Mã ' + res.status + ')');
+								status.style.color = '#c00';
+								status.textContent = msg;
+							}
+						})
+						.catch(function (err) {
+							status.style.color = '#c00';
+							status.textContent = 'Lỗi kết nối: ' + (err.message || 'Mất kết nối khi tải ảnh');
+						})
+						.then(function () { file.value = ''; });
+				});
 			};
+
 			var ctrl = el('div', 'cde-img__ctrl');
-			ctrl.appendChild(file); ctrl.appendChild(status); ctrl.appendChild(rm);
-			w.appendChild(prev); w.appendChild(ctrl);
+			ctrl.appendChild(file);
+			ctrl.appendChild(textInput);
+			ctrl.appendChild(status);
+			ctrl.appendChild(rm);
+			w.appendChild(prev);
+			w.appendChild(ctrl);
 			paint();
 			return w;
 		}

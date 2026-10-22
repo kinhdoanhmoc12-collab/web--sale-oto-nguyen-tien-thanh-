@@ -274,7 +274,7 @@ $learn = function (string $label = 'TÌM HIỂU THÊM') use ($name): string {
 
 <?php if ($accItems) : ?>
 <!-- 7. Phụ kiện chính hãng -->
-<section class="cd-accs"<?= !empty($acc['image']) ? ' style="--bg:url(\'' . eu(media($acc['image'])) . '\')"' : '' ?>>
+<section class="cd-accs">
 	<div class="cd-wrap cd-accs__inner">
 		<div class="cd-accs__box">
 			<h2><?= e(($acc['title'] ?? '') ?: 'PHỤ KIỆN CHÍNH HÃNG') ?></h2>
