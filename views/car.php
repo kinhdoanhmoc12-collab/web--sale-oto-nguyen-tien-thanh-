@@ -194,9 +194,9 @@ $learn = function (string $label = 'TÌM HIỂU THÊM') use ($name): string {
 <section class="cd-colors">
 	<div class="cd-wrap">
 		<h2 class="cd-h2">Màu sắc</h2>
-		<div class="cd-colors__grid cd-colors__grid--<?= max(min(count($vers), 3), 1) ?>">
-			<?php foreach ($vers as $v) : if (!$v['colors']) { continue; } $c0 = $v['colors'][0]; ?>
-				<div class="cd-color">
+		<div class="cd-colors__grid cd-colors__grid--1">
+			<?php foreach ($vers as $i => $v) : $c0 = $v['colors'][0] ?? []; ?>
+				<div class="cd-color" data-v="<?= $i ?>"<?= $i ? ' hidden' : '' ?>>
 					<div class="cd-color__img"><?= $img(($c0['image'] ?? '') ?: $v['img'], "Mitsubishi $name {$v['name']} màu " . ($c0['name'] ?? '')) ?></div>
 					<div class="cd-color__name"><?= e($v['name']) ?></div>
 					<div class="cd-color__price">Giá: <?= e($money($v['price'])) ?></div>
@@ -205,7 +205,7 @@ $learn = function (string $label = 'TÌM HIỂU THÊM') use ($name): string {
 							<button type="button" class="cd-swatch<?= $k ? '' : ' is-on' ?>" style="--c:<?= e(preg_match('/^#[0-9a-f]{3,8}$/i', (string) ($c['hex'] ?? '')) ? $c['hex'] : '#cccccc') ?>" data-img="<?= eu(media(($c['image'] ?? '') ?: $v['img'])) ?>" data-name="<?= e($c['name'] ?? '') ?>" aria-label="<?= e($c['name'] ?? '') ?>" aria-checked="<?= $k ? 'false' : 'true' ?>" role="radio"></button>
 						<?php endforeach; ?>
 					</div>
-					<div class="cd-color__label"><?= e($c0['name'] ?? '') ?></div>
+					<div class="cd-color__label"><?= e($c0['name'] ?? 'Liên hệ để biết màu có sẵn') ?></div>
 				</div>
 			<?php endforeach; ?>
 		</div>

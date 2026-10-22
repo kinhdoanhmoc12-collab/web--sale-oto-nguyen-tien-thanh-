@@ -12,7 +12,7 @@
 			b.setAttribute('aria-selected', on ? 'true' : 'false');
 		});
 		$$('.cd-tab').forEach(function (b) { b.classList.toggle('is-on', b.getAttribute('data-v') === String(i)); });
-		$$('.cd-pane, .cd-version__pic').forEach(function (p) { p.hidden = p.getAttribute('data-v') !== String(i); });
+		$$('.cd-pane, .cd-version__pic, .cd-color[data-v]').forEach(function (p) { p.hidden = p.getAttribute('data-v') !== String(i); });
 		var sel = document.querySelector('#lai-thu select[name="version"]');
 		if (sel && sel.options[i]) sel.selectedIndex = i;
 		if (scroll) {
