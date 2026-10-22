@@ -78,18 +78,9 @@ if (!$feats) { // dùng 4 ô mô tả cũ nếu có
     }
 }
 $acc = $D['accessories'] ?? [];
-$accItems = array_values(array_filter($acc['items'] ?? [], fn($i) => trim((string) ($i['name'] ?? '')) !== ''));
-if (!$accItems) {
-    $acc = ['title' => 'PHỤ KIỆN CHÍNH HÃNG', 'desc' => "Bộ phụ kiện cao cấp chính hãng giúp khẳng định cá tính riêng cho $name.", 'image' => ''];
-    $accItems = [
-        ['image' => '', 'name' => 'Ốp cản trước thể thao'],
-        ['image' => '', 'name' => 'Ốp cản sau thể thao'],
-        ['image' => '', 'name' => 'Bộ chữ nổi ' . $name],
-        ['image' => '', 'name' => 'Vè che mưa chính hãng'],
-        ['image' => '', 'name' => 'Ốp bệ bước chân'],
-        ['image' => '', 'name' => 'Thảm lót sàn cao cấp'],
-    ];
-}
+$accImg = trim((string) ($acc['image'] ?? ''));
+$accItems = array_values(array_filter($acc['items'] ?? [], fn($i) => !empty($i['image'])));
+$hasAcc = $accImg !== '' || !empty($accItems);
 $partner = $D['partner'] ?? [];
 
 /* ---------- SEO ---------- */
@@ -272,23 +263,29 @@ $learn = function (string $label = 'TÌM HIỂU THÊM') use ($name): string {
 </section>
 <?php endif; ?>
 
-<?php if ($accItems) : ?>
+<?php if ($hasAcc) : ?>
 <!-- 7. Phụ kiện chính hãng -->
-<section class="cd-accs"<?= !empty($acc['image']) ? ' style="--bg:url(\'' . eu(media($acc['image'])) . '\')"' : '' ?>>
+<section class="cd-accs">
 	<div class="cd-wrap cd-accs__inner">
 		<div class="cd-accs__box">
 			<h2><?= e(($acc['title'] ?? '') ?: 'PHỤ KIỆN CHÍNH HÃNG') ?></h2>
 			<?php if (!empty($acc['desc'])) : ?><p><?= e($acc['desc']) ?></p><?php endif; ?>
 			<a class="cd-btn cd-btn--light" href="#lai-thu" data-popup data-car="<?= e($name) ?>">HỎI GIÁ PHỤ KIỆN</a>
 		</div>
-		<div class="cd-accs__grid">
-			<?php foreach ($accItems as $it) : ?>
-				<figure class="cd-acc-item">
-					<div class="cd-acc-item__img"><?= !empty($it['image']) ? $img($it['image'], $it['name']) : '<span class="cd-ph cd-ph--sm"><span>PHỤ KIỆN</span></span>' ?></div>
-					<figcaption><?= e(upper($it['name'])) ?></figcaption>
-				</figure>
-			<?php endforeach; ?>
-		</div>
+		<?php if (!empty($accItems)) : ?>
+			<div class="cd-accs__grid">
+				<?php foreach ($accItems as $it) : ?>
+					<figure class="cd-acc-item">
+						<div class="cd-acc-item__img"><?= $img($it['image'], $it['name'] ?? 'Phụ kiện chính hãng') ?></div>
+						<?php if (!empty($it['name'])) : ?><figcaption><?= e(upper($it['name'])) ?></figcaption><?php endif; ?>
+					</figure>
+				<?php endforeach; ?>
+			</div>
+		<?php elseif (!empty($accImg)) : ?>
+			<div class="cd-accs__visual">
+				<img src="<?= eu(media($accImg)) ?>" alt="<?= e(($acc['title'] ?? 'Phụ kiện chính hãng') . " Mitsubishi $name") ?>" loading="lazy" decoding="async">
+			</div>
+		<?php endif; ?>
 	</div>
 </section>
 <?php endif; ?>

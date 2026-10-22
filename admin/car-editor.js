@@ -40,10 +40,10 @@
 			{ key: 'accessories', label: 'Phụ kiện chính hãng', type: 'group', fields: [
 				{ key: 'title', label: 'Tiêu đề', type: 'text' },
 				{ key: 'desc', label: 'Mô tả', type: 'textarea', rows: 2 },
-				{ key: 'image', label: 'Ảnh nền cả mục (~1920 × 1080 px, để trống = nền trắng)', type: 'image' },
-				{ key: 'items', label: 'Danh sách phụ kiện', type: 'list', add: '+ Thêm phụ kiện', title: 'name', compact: true, fields: [
-					{ key: 'name', label: 'Tên phụ kiện', type: 'text' },
-					{ key: 'image', label: 'Ảnh (~800 × 500 px)', type: 'image' }
+				{ key: 'image', label: 'Ảnh phụ kiện chính (~1200 × 700 px)', type: 'image' },
+				{ key: 'items', label: 'Danh sách ảnh phụ kiện khác (nếu có)', type: 'list', add: '+ Thêm ảnh phụ kiện', title: 'name', compact: true, fields: [
+					{ key: 'image', label: 'Ảnh phụ kiện', type: 'image' },
+					{ key: 'name', label: 'Tên phụ kiện / Chú thích (tùy chọn)', type: 'text' }
 				] }
 			] },
 			{ key: 'partner', label: 'Phụ kiện hợp tác bên thứ 3', type: 'group', fields: [

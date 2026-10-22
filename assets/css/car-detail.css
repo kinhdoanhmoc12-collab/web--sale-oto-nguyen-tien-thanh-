@@ -116,6 +116,8 @@
 .cd-acc-item__img{aspect-ratio:16/10;background:#fff;overflow:hidden;clip-path:polygon(4% 0,100% 0,96% 100%,0 100%)}
 .cd-acc-item__img img{width:100%;height:100%;object-fit:cover}
 .cd-acc-item figcaption{font-size:16px;font-weight:900;color:#111}
+.cd-accs__visual{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:6px;overflow:hidden}
+.cd-accs__visual img{width:100%;height:auto;max-height:640px;object-fit:contain;display:block}
 
 /* Giới thiệu & form */
 .cd-intro{padding-top:40px;padding-bottom:20px;max-width:900px}
