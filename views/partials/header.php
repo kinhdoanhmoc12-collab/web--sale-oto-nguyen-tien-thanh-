@@ -48,6 +48,7 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <?= opt('head_code') /* mã do quản trị viên dán (Facebook Pixel, xác minh Google…) */ ?>
 <script>window.TT=<?= json_encode($TT, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?>;</script>
 <script src="<?= e(url('assets/js/main.js')) ?>?v=<?= e(APP_VERSION . '-' . @filemtime(ROOT . '/assets/js/main.js')) ?>" defer></script>
+<?= $EXTRA_HEAD ?? '' ?>
 </head>
 <body class="view-<?= e($view ?? '') ?>">
 <a class="skip-link" href="#main">Bỏ qua menu</a>

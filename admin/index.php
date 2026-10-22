@@ -161,6 +161,7 @@ try {
             $data['fee_kind'] = in_array(post('fee_kind'), ['5', '7', 'pickup'], true) ? post('fee_kind') : '5';
             $data['content'] = clean_html(post('content'));
             $data['image'] = image_value('image', 1600);
+            $data['detail'] = car_detail_clean(post('detail'));
             $id = db_save('cars', $data, $id ?: null);
             go('car', ['id' => $id], 'Đã lưu xe ' . $name . '.');
         }
@@ -300,6 +301,36 @@ if ($p === 'backup' && hash_equals(csrf(), get_('t'))) {
 /* =========================================================
  * Các màn hình
  * ======================================================= */
+/** Làm sạch dữ liệu "Trang chi tiết xe" (JSON) trước khi lưu. */
+function car_detail_clean(string $json): string
+{
+    $d = json_decode($json, true);
+    if (!is_array($d)) {
+        return '';
+    }
+    $clean = function ($v, $key = '') use (&$clean) {
+        if (is_array($v)) {
+            $out = [];
+            foreach ($v as $k => $x) {
+                $out[$k] = $clean($x, (string) $k);
+            }
+            return $out;
+        }
+        if (is_bool($v) || is_int($v) || is_float($v)) {
+            return $v;
+        }
+        $v = trim(strip_tags((string) $v));
+        if ($key === 'image') {
+            return preg_match('~^(https?://|/?(uploads|assets)/|' . preg_quote(BASE . '/', '~') . '(uploads|assets)/)~', $v) ? $v : '';
+        }
+        if ($key === 'hex') {
+            return preg_match('/^#[0-9a-f]{3,8}$/i', $v) ? $v : '';
+        }
+        return mb_substr($v, 0, 5000);
+    };
+    return json_encode($clean($d), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+}
+
 function source_label(string $s): string
 {
     return ['trang-chu' => 'Trang chủ', 'trang-xe' => 'Trang xe', 'lai-thu' => 'Lái thử', 'dat-lich-dich-vu' => 'Đặt lịch dịch vụ', 'popup' => 'Popup'][$s] ?? $s;
@@ -572,7 +603,7 @@ switch ($p) {
 
     case 'car':
         $id = get_('id');
-        $c = $id === 'new' ? ['id' => 0, 'slug' => '', 'name' => '', 'ord' => count(cars(true)) + 1, 'active' => 1, 'segment' => '', 'versions' => '', 'seats' => '', 'engine' => '', 'origin' => '', 'warranty' => '', 'specs' => '', 'fee_kind' => '5', 'promos' => '', 'feat_exterior' => '', 'feat_interior' => '', 'feat_drive' => '', 'feat_safety' => '', 'image' => '', 'content' => '', 'excerpt' => ''] : row('SELECT * FROM cars WHERE id = ?', [(int) $id]);
+        $c = $id === 'new' ? ['id' => 0, 'slug' => '', 'name' => '', 'ord' => count(cars(true)) + 1, 'active' => 1, 'segment' => '', 'versions' => '', 'seats' => '', 'engine' => '', 'origin' => '', 'warranty' => '', 'specs' => '', 'fee_kind' => '5', 'promos' => '', 'feat_exterior' => '', 'feat_interior' => '', 'feat_drive' => '', 'feat_safety' => '', 'image' => '', 'content' => '', 'excerpt' => '', 'detail' => ''] : row('SELECT * FROM cars WHERE id = ?', [(int) $id]);
         if (!$c) {
             go('cars', [], 'Không tìm thấy xe.');
         }
@@ -613,6 +644,13 @@ switch ($p) {
                 <?= field('slug', 'Đường dẫn', $c['slug'], 'text', 'Để trống sẽ tự tạo, ví dụ <code>mitsubishi-xforce</code>. Đổi đường dẫn sẽ làm mất thứ hạng Google của trang cũ.') ?>
                 <div class="field"><label class="check"><input type="checkbox" name="active" value="1" <?= $c['active'] ? 'checked' : '' ?>> Hiện xe này trên web</label></div>
             </div></section>
+            <section class="card" id="trang-chi-tiet">
+                <h2>Trang chi tiết xe</h2>
+                <p class="hint">Nội dung trang khách mở khi bấm <b>Chi tiết</b>: phiên bản, màu sắc, thông số, điểm nổi bật, phụ kiện. Mục nào để trống sẽ tự ẩn hoặc dùng ảnh xe chính. Giá của từng phiên bản lấy từ ô <b>Phiên bản &amp; giá niêm yết</b> ở trên (tên phiên bản phải giống nhau).</p>
+                <input type="hidden" name="detail" id="cd-detail" value="<?= e($c['detail'] ?? '') ?>">
+                <div id="cd-editor" class="cde"><p class="hint">Đang tải trình sửa…</p></div>
+            </section>
+            <script src="<?= e(url('admin/car-editor.js')) ?>?v=<?= @filemtime(__DIR__ . '/car-editor.js') ?>" defer></script>
             <div class="savebar"><button class="btn btn--primary btn--lg">💾 Lưu xe</button></div>
         </form>
         <?php if ($c['id']) : ?>

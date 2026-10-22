@@ -46,6 +46,7 @@ function db_init(): void
 {
     $have = (int) val("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='settings'");
     if ($have) {
+        db_migrate();
         return;
     }
     db()->exec(<<<SQL
@@ -74,4 +75,17 @@ CREATE TABLE login_attempts (ip TEXT, at INTEGER);
 CREATE INDEX leads_created ON leads (created_at);
 SQL);
     seed_all();
+    db_migrate();
+}
+
+/** Nâng cấp database cũ: thêm cột mới khi cần, không đụng dữ liệu đang có. */
+function db_migrate(): void
+{
+    $cols = array_column(rows('PRAGMA table_info(cars)'), 'name');
+    if (!in_array('detail', $cols, true)) {
+        db()->exec("ALTER TABLE cars ADD COLUMN detail TEXT DEFAULT ''");
+    }
+    if (function_exists('seed_car_details')) {
+        seed_car_details();
+    }
 }

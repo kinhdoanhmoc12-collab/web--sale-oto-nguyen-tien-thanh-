@@ -172,6 +172,7 @@ function layout_start(string $title, string $active = ''): void
 <title><?= e($title) ?> – Quản trị web</title>
 <link rel="icon" href="<?= e(url('assets/img/logo.svg')) ?>">
 <link rel="stylesheet" href="<?= e(url('admin/admin.css')) ?>?v=<?= @filemtime(__DIR__ . '/admin.css') ?>">
+<script>window.ADM = {upload: <?= json_encode(admin_url('upload')) ?>, csrf: <?= json_encode(csrf()) ?>, base: <?= json_encode(BASE . '/') ?>};</script>
 </head>
 <body class="adm">
 <?php if (logged_in()) : ?>
