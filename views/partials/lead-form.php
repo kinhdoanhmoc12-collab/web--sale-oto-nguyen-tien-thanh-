@@ -43,7 +43,7 @@ $success = $success ?? ('Chuyên viên ' . e(opt('consultant_name')) . ' sẽ g�
 				</label>
 				<input type="hidden" name="car" value="<?= e($car) ?>">
 			<?php endif; ?>
-			<?php if (isset($fields['date'])) : ?><label><?= isset($fields['service']) ? 'Ngày hẹn' : 'Ngày mong muốn' ?><input type="date" name="date"></label><?php endif; ?>
+			<?php if (isset($fields['date'])) : ?><label><?= isset($fields['service']) ? 'Ngày hẹn' : 'Ngày mong muốn' ?><input type="text" name="date" class="lead-form__date" placeholder="dd/mm/yyyy" autocomplete="off" inputmode="numeric" maxlength="10"></label><?php endif; ?>
 		</div>
 		<?php if (isset($fields['region'])) : ?><label>Khu vực lăn bánh (nơi đăng ký xe)<input type="text" name="region" placeholder="VD: Hà Nội, Bắc Ninh, Hưng Yên…" maxlength="120"></label><?php endif; ?>
 		<?php if (isset($fields['service'])) : ?>

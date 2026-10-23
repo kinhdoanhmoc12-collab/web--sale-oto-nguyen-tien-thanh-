@@ -208,6 +208,28 @@
 	});
 
 	/* ---------- Lead forms ---------- */
+	function initDatePickers() {
+		$$('input.lead-form__date').forEach(function (inp) {
+			if (typeof window.flatpickr === 'function') {
+				var vn = (window.flatpickr.l10ns && window.flatpickr.l10ns.vn) ? window.flatpickr.l10ns.vn : null;
+				window.flatpickr(inp, {
+					locale: vn || 'vn',
+					dateFormat: 'd/m/Y',
+					allowInput: true,
+					minDate: 'today',
+					disableMobile: true
+				});
+			}
+			inp.addEventListener('input', function (e) {
+				if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') return;
+				var v = inp.value;
+				if (/^\d{2}$/.test(v)) inp.value = v + '/';
+				else if (/^\d{2}\/\d{2}$/.test(v)) inp.value = v + '/';
+			});
+		});
+	}
+	initDatePickers();
+
 	function cleanPhone(raw, loose) {
 		var d = String(raw || '').replace(/\D/g, '');
 		if (d.indexOf('84') === 0 && d.length === 11) d = '0' + d.slice(2);

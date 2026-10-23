@@ -270,6 +270,15 @@ h1,h2,h3{line-height:1.25}
 .lead-form--light .lead-form__submit{align-self:flex-start}
 .lead-form--light .lead-form__title{text-align:left;font-size:26px;color:var(--red)}
 .lead-form--light .lead-form__done{border:2px solid var(--red)}
+.lead-form input.lead-form__date{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23444444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:18px 18px;padding-right:42px!important;cursor:pointer}
+.lead-form--onred input.lead-form__date{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E")}
+.flatpickr-calendar{font-family:inherit;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.15);border:1px solid #e0e0e0;z-index:99999}
+.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange,.flatpickr-day.selected:hover,.flatpickr-day.selected:focus{background:var(--red)!important;border-color:var(--red)!important;color:#fff!important}
+.flatpickr-day.today{border-color:var(--red)!important}
+.flatpickr-day.today:hover{background:#ffebeb!important;color:var(--red)!important}
+.flatpickr-day:hover{background:#f3f3f3}
+.flatpickr-months .flatpickr-month{color:var(--ink)}
+.flatpickr-current-month .flatpickr-monthDropdown-months{font-weight:700}
 
 /* Car page */
 .car-hero{display:flex;flex-wrap:wrap;gap:40px;align-items:center;padding-top:32px;padding-bottom:48px}

@@ -31,6 +31,7 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <?php $cssMtime = @filemtime(ROOT . '/assets/css/main.css'); $cssVer = APP_VERSION . '-' . $cssMtime; ?>
 <link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>?v=<?= e($cssVer) ?>">
+<link rel="stylesheet" href="<?= e(url('assets/css/flatpickr.min.css')) ?>?v=<?= e(APP_VERSION) ?>">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
 <?php if (!empty($PRELOAD)) : ?><link rel="preload" as="image" href="<?= eu($PRELOAD) ?>" fetchpriority="high"><?php endif; ?>
 <?php $gtm = trim(opt('gtm_id')); if (preg_match('/^GTM-[A-Z0-9]+$/', $gtm)) : ?>
@@ -47,6 +48,8 @@ $navLink = function (string $key, string $label) use (&$ACTIVE) {
 </script>
 <?= opt('head_code') /* mã do quản trị viên dán (Facebook Pixel, xác minh Google…) */ ?>
 <script>window.TT=<?= json_encode($TT, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?>;</script>
+<script src="<?= e(url('assets/js/flatpickr.min.js')) ?>?v=<?= e(APP_VERSION) ?>" defer></script>
+<script src="<?= e(url('assets/js/flatpickr-vn.js')) ?>?v=<?= e(APP_VERSION) ?>" defer></script>
 <script src="<?= e(url('assets/js/main.js')) ?>?v=<?= e(APP_VERSION . '-' . @filemtime(ROOT . '/assets/js/main.js')) ?>" defer></script>
 <?= $EXTRA_HEAD ?? '' ?>
 </head>
